@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import SiteNav from '../components/layout/SiteNav.astro';
+import WorksIndex from '../components/works/WorksIndex.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const works = (await getCollection('works')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Works — Aslan Li" page="works">
+  <WorksIndex {works}>
+    <SiteNav slot="navigation" current="works" />
+  </WorksIndex>
+</BaseLayout>

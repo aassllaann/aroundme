@@ -1,0 +1,29 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  page?: 'index' | 'works' | 'about';
+}
+
+const {
+  title,
+  description = 'A working archive of visual systems, unfinished cases, and small machines.',
+  page = 'index',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#E8A100" />
+    <title>{title}</title>
+  </head>
+  <body data-page={page}>
+    <slot />
+  </body>
+</html>

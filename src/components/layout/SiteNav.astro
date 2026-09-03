@@ -1,0 +1,24 @@
+---
+interface Props {
+  current: 'index' | 'works' | 'about';
+}
+
+const { current } = Astro.props;
+const links = [
+  { id: 'index', label: 'INDEX', href: '/' },
+  { id: 'works', label: 'WORKS', href: '/works' },
+  { id: 'about', label: 'ABOUT', href: '/about' },
+] as const;
+---
+
+<nav class="site-nav" aria-label="Primary navigation">
+  {links.map((link) => {
+    const active = current === link.id;
+    return (
+      <a href={link.href} aria-current={active ? 'page' : undefined}>
+        <span aria-hidden="true">{active ? '●' : '○'}</span>
+        {link.label}
+      </a>
+    );
+  })}
+</nav>

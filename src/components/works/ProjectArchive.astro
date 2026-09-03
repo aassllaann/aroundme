@@ -1,0 +1,50 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  work: CollectionEntry<'works'>;
+  Content: Awaited<ReturnType<typeof import('astro:content').render>>['Content'];
+}
+
+const { work, Content } = Astro.props;
+const { preview } = work.data;
+const assetUrl = (src: string) => `/${src}`;
+---
+
+<main class="project-page">
+  <header class="project-header">
+    <a href="/works/" class="project-back">← WORKS INDEX</a>
+    <p>FILE / {String(work.data.order).padStart(2, '0')}</p>
+    <p>{work.data.year}</p>
+  </header>
+
+  <section class="project-hero" aria-labelledby="project-title">
+    <p class="archive-kicker"><span>{String(work.data.order).padStart(2, '0')}</span> PROJECT FILE</p>
+    <h1 id="project-title">{work.data.title}</h1>
+    <p class="project-summary">{work.data.summary}</p>
+  </section>
+
+  <section class="project-media" aria-label={`${work.data.title} preview`}>
+    {preview.type === 'image' ? (
+      <img src={assetUrl(preview.src)} alt={preview.alt} />
+    ) : (
+      <video src={assetUrl(preview.src)} poster={assetUrl(preview.poster)} controls playsinline>
+        Your browser does not support embedded video.
+      </video>
+    )}
+  </section>
+
+  <section class="project-record">
+    <aside class="project-meta" aria-label="Project metadata">
+      <dl>
+        <div><dt>TYPE</dt><dd>{work.data.type}</dd></div>
+        <div><dt>YEAR</dt><dd>{work.data.year}</dd></div>
+        <div><dt>INDEX</dt><dd>{work.data.categories.join(' · ')}</dd></div>
+        <div><dt>STATUS</dt><dd>MATERIALS IN PROGRESS</dd></div>
+      </dl>
+    </aside>
+    <article class="project-body"><Content /></article>
+  </section>
+
+  <footer class="project-footer"><a href="/works/">← RETURN TO WORKS INDEX</a></footer>
+</main>

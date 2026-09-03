@@ -1,0 +1,81 @@
+---
+import SiteNav from '../layout/SiteNav.astro';
+
+const practices = [
+  'AI / visual systems',
+  'archive narratives',
+  'interaction & web',
+  'image studies',
+  'moving image',
+];
+
+const skills = [
+  ['TECHNICAL', 'Python · JavaScript · React · Astro · Streamlit · SQL · LLM · RAG · Data Visualization'],
+  ['CREATIVE', 'Photography · Video Editing · Illustration · Painting · Pixel Art · Visual Research'],
+  ['IN PROGRESS', 'TouchDesigner · p5.js · Three.js · Blender'],
+];
+---
+
+<main class="about-page">
+  <header class="about-header">
+    <p class="edition-mark">ARCHIVE / 03</p>
+    <SiteNav current="about" />
+    <p class="edition-mark edition-mark--right">PERSONNEL FILE</p>
+  </header>
+
+  <section class="about-intro" aria-labelledby="about-title">
+    <p class="archive-kicker"><span>03</span> BIOGRAPHICAL FILE</p>
+    <h1 id="about-title">ABOUT<br /><em>THE MAKER</em></h1>
+    <p class="about-lede">
+      Li Yetong(Aslan) is a creative technologist working across AI, visual systems,
+      archive narratives, interaction, and experimental storytelling.
+    </p>
+  </section>
+
+  <section class="about-record" aria-label="Biographical record">
+    <div class="record-label">01 / POSITION</div>
+    <div class="record-content record-content--statement">
+      <p class="position-statement">
+        I use technical systems to make concepts, experiences, and images legible —
+        not simply to demonstrate technical skill. The work sits between research,
+        interface, visual observation, and fiction.
+      </p>
+      <ul class="practice-list" aria-label="Creative practice">
+        {practices.map((practice) => <li>{practice}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="about-record">
+    <div class="record-label">02 / EDUCATION</div>
+    <div class="record-content education-list">
+      <article>
+        <p class="record-year">2026 - CURRENT</p>
+        <h2>Nanyang Technological University (NTU)</h2>
+        <p>MSc Artificial Intelligence</p>
+      </article>
+      <article>
+        <p class="record-year">2022 - 2026</p>
+        <h2>Nankai University</h2>
+        <p>BSc Computer Science</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="about-record">
+    <div class="record-label">03 / WORKING SET</div>
+    <div class="record-content skill-list">
+      {skills.map(([label, content]) => (
+        <article>
+          <h2>{label}</h2>
+          <p>{content}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <footer class="about-contact">
+    <p class="archive-kicker"><span>04</span> CONTACT / COLLABORATION</p>
+    <p>Contact links are being filed.<br />Available here in the next archive update.</p>
+  </footer>
+</main>
