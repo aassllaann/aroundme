@@ -1,12 +1,13 @@
 ---
 interface Props {
   current: 'index' | 'works' | 'about';
+  worksHref?: string;
 }
 
-const { current } = Astro.props;
+const { current, worksHref = '/works' } = Astro.props;
 const links = [
   { id: 'index', label: 'INDEX', href: '/' },
-  { id: 'works', label: 'WORKS', href: '/works' },
+  { id: 'works', label: 'WORKS', href: worksHref },
   { id: 'about', label: 'ABOUT', href: '/about' },
 ] as const;
 ---

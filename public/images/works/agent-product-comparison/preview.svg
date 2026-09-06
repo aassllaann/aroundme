@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="Agent Product Comparison material placeholder">
+  <rect width="1200" height="900" fill="#59DCA8"/>
+  <g fill="none" stroke="#040108" stroke-width="5"><path d="M200 630V256h240v374M480 630V184h240v446M760 630V324h240v306"/><path d="M154 630h892"/></g>
+  <g fill="#F8728B"><circle cx="320" cy="256" r="52"/><circle cx="600" cy="184" r="52"/><circle cx="880" cy="324" r="52"/></g>
+  <path d="m212 688 154-82 171 45 162-206 225 90" fill="none" stroke="#AA6EC6" stroke-width="18"/>
+  <text x="72" y="834" fill="#040108" font-family="monospace" font-size="28">AGENT PRODUCT COMPARISON / INTERFACE MATERIALS PENDING</text>
+</svg>

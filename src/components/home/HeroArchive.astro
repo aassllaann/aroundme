@@ -2,10 +2,10 @@
 import SiteNav from '../layout/SiteNav.astro';
 ---
 
-<main class="archive-home">
+<section class="archive-home" aria-label="Home">
   <header class="home-header">
     <p class="edition-mark">ARCHIVE / 01</p>
-    <SiteNav current="index" />
+    <SiteNav current="index" worksHref="#works" />
     <p class="edition-mark edition-mark--right">SINGAPORE / 2026</p>
   </header>
 
@@ -31,6 +31,6 @@ import SiteNav from '../layout/SiteNav.astro';
   <footer class="home-footer">
     <p class="identity">CREATIVE TECHNOLOGIST<br />AI · ARCHIVES · INTERACTION</p>
     <p class="intro">A working archive of visual systems,<br />unfinished cases, and small machines.</p>
-    <a class="enter-link" href="/works">ENTER THE WORKS <span aria-hidden="true">↗</span></a>
+    <a class="enter-link" href="#works">SCROLL ↓ / ENTER THE WORKS <span aria-hidden="true">↓</span></a>
   </footer>
-</main>
+</section>

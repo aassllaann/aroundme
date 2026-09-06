@@ -1,9 +1,9 @@
 ---
 title: Pixel Monster Studies
-order: 4
+order: 8
 year: '2026'
 type: SKETCHBOOK / PIXEL ART
-categories: ['Featured', 'Sketchbook', 'Image Studies']
+categories: ['Image Studies']
 featured: true
 summary: A forthcoming archive entry for character and pixel-image studies.
 preview:

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="La Table du Temps material placeholder">
+  <rect width="1200" height="900" fill="#C8C6D3"/>
+  <g fill="none" stroke="#040108" stroke-width="5"><path d="M124 446h952"/><path d="M203 283 403 370 600 224 793 514 1004 350"/><circle cx="203" cy="283" r="48"/><circle cx="403" cy="370" r="48"/><circle cx="600" cy="224" r="48"/><circle cx="793" cy="514" r="48"/><circle cx="1004" cy="350" r="48"/></g>
+  <g fill="#F8728B"><rect x="148" y="622" width="180" height="82"/><rect x="371" y="622" width="180" height="82"/><rect x="594" y="622" width="180" height="82"/><rect x="817" y="622" width="180" height="82"/></g>
+  <text x="72" y="834" fill="#040108" font-family="monospace" font-size="28">LA TABLE DU TEMPS / INTERFACE MATERIALS PENDING</text>
+</svg>

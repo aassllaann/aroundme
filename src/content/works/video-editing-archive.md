@@ -1,6 +1,6 @@
 ---
 title: Video Editing Archive
-order: 6
+order: 10
 year: '2021–'
 type: MOVING IMAGE / EDITING
 categories: ['Moving Image']

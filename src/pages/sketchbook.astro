@@ -1,0 +1,117 @@
+---
+import { existsSync, readdirSync } from 'node:fs';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteNav from '../components/layout/SiteNav.astro';
+
+const imageExtension = /\.(avif|gif|jpe?g|png|svg|webp)$/i;
+const sketchbookDirectory = `${process.cwd()}/public/images/works/sketchbook`;
+const images = existsSync(sketchbookDirectory)
+  ? readdirSync(sketchbookDirectory)
+      .filter((filename: string) => imageExtension.test(filename))
+      .sort((a: string, b: string) => a.localeCompare(b, undefined, { numeric: true }))
+      .map((filename: string) => ({
+        src: `/images/works/sketchbook/${encodeURIComponent(filename)}`,
+        alt: filename.replace(imageExtension, '').replaceAll(/[-_]/g, ' '),
+      }))
+  : [];
+---
+
+<BaseLayout title="Sketchbook — Li Yetong" page="works">
+  <main class="sketchbook-page">
+    <header class="works-header">
+      <p class="edition-mark">ARCHIVE / 03</p>
+      <SiteNav current="works" />
+      <p class="edition-mark edition-mark--right">IMAGE NOTES / {String(images.length).padStart(2, '0')}</p>
+    </header>
+
+    <section class="sketchbook-intro" aria-labelledby="sketchbook-title">
+      <p class="archive-kicker"><span>03</span> UNCLASSIFIED IMAGE FILES</p>
+      <h1 id="sketchbook-title">SKETCHBOOK</h1>
+      <p>Loose visual notes, pixel studies, fragments, and experiments.</p>
+    </section>
+
+    {images.length > 0 ? (
+      <section class="sketchbook-carousel" aria-label="Sketchbook image carousel">
+        {images.map((image: { src: string; alt: string }, index: number) => (
+          <figure class="sketchbook-image">
+            <button type="button" class="sketchbook-image__open" data-sketchbook-open aria-label={`Open image ${index + 1} of ${images.length}`}>
+              <img src={image.src} alt={image.alt} loading={index < 3 ? 'eager' : 'lazy'} />
+            </button>
+            <figcaption>FILE / {String(index + 1).padStart(2, '0')}</figcaption>
+          </figure>
+        ))}
+      </section>
+    ) : (
+      <section class="sketchbook-empty" aria-label="Sketchbook pending images">
+        <p>IMAGE FILES PENDING</p>
+        <p>Add image files to <code>public/images/works/sketchbook/</code>.</p>
+      </section>
+    )}
+
+    <footer class="project-footer"><a href="/works/">← RETURN TO WORKS INDEX</a></footer>
+  </main>
+
+  <dialog class="sketchbook-lightbox" data-sketchbook-lightbox aria-label="Expanded sketchbook image">
+    <button type="button" class="sketchbook-lightbox__close" data-sketchbook-close aria-label="Close expanded image">×</button>
+    <button type="button" class="sketchbook-lightbox__previous" data-sketchbook-previous aria-label="Previous image">←</button>
+    <figure class="sketchbook-lightbox__frame">
+      <img data-sketchbook-lightbox-image src="" alt="" />
+      <figcaption data-sketchbook-lightbox-caption>FILE / 00</figcaption>
+    </figure>
+    <button type="button" class="sketchbook-lightbox__next" data-sketchbook-next aria-label="Next image">→</button>
+  </dialog>
+</BaseLayout>
+
+<script>
+  const galleryImages = Array.from(document.querySelectorAll<HTMLImageElement>('[data-sketchbook-open] img'));
+  const openButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-sketchbook-open]'));
+  const lightbox = document.querySelector<HTMLDialogElement>('[data-sketchbook-lightbox]');
+  const lightboxImage = document.querySelector<HTMLImageElement>('[data-sketchbook-lightbox-image]');
+  const lightboxCaption = document.querySelector<HTMLElement>('[data-sketchbook-lightbox-caption]');
+  const closeButton = document.querySelector<HTMLButtonElement>('[data-sketchbook-close]');
+  const previousButton = document.querySelector<HTMLButtonElement>('[data-sketchbook-previous]');
+  const nextButton = document.querySelector<HTMLButtonElement>('[data-sketchbook-next]');
+  let activeIndex = 0;
+  let swipeStartX = 0;
+
+  function showImage(index: number) {
+    if (!lightboxImage || !lightboxCaption || galleryImages.length === 0) return;
+    activeIndex = (index + galleryImages.length) % galleryImages.length;
+    const image = galleryImages[activeIndex];
+    lightboxImage.src = image.currentSrc || image.src;
+    lightboxImage.alt = image.alt;
+    lightboxCaption.textContent = `FILE / ${String(activeIndex + 1).padStart(2, '0')}`;
+  }
+
+  function openLightbox(index: number) {
+    if (!lightbox) return;
+    showImage(index);
+    if (!lightbox.open) lightbox.showModal();
+    closeButton?.focus();
+  }
+
+  function closeLightbox() {
+    if (lightbox?.open) lightbox.close();
+  }
+
+  openButtons.forEach((button, index) => button.addEventListener('click', () => openLightbox(index)));
+  closeButton?.addEventListener('click', closeLightbox);
+  previousButton?.addEventListener('click', () => showImage(activeIndex - 1));
+  nextButton?.addEventListener('click', () => showImage(activeIndex + 1));
+
+  document.addEventListener('keydown', (event) => {
+    if (!lightbox?.open) return;
+    if (event.key === 'ArrowLeft') { event.preventDefault(); showImage(activeIndex - 1); }
+    if (event.key === 'ArrowRight') { event.preventDefault(); showImage(activeIndex + 1); }
+  });
+
+  lightbox?.addEventListener('click', (event) => {
+    if (event.target === lightbox) closeLightbox();
+  });
+  lightbox?.addEventListener('pointerdown', (event) => { swipeStartX = event.clientX; });
+  lightbox?.addEventListener('pointerup', (event) => {
+    const distance = event.clientX - swipeStartX;
+    if (Math.abs(distance) < 48) return;
+    showImage(distance < 0 ? activeIndex + 1 : activeIndex - 1);
+  });
+</script>

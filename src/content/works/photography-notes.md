@@ -1,6 +1,6 @@
 ---
 title: Photography Notes
-order: 5
+order: 9
 year: '2025–'
 type: PHOTOGRAPHY / VISUAL RESEARCH
 categories: ['Photography']

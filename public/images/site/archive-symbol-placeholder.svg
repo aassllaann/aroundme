@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420" role="img" aria-labelledby="title desc">
   <title id="title">Archive symbol placeholder</title>
-  <desc id="desc">A purple eye, green hand, and rust-colored stamp arranged as an abstract archive mark.</desc>
-  <path fill="#6B7A2E" d="M208 36c42 15 72 54 80 101l38 30-38 19c-12 39-40 72-80 90-42-18-70-51-82-90l-36-19 36-30c10-47 40-86 82-101Z"/>
-  <path fill="#3D1152" d="M208 95c57 0 105 49 130 112-25 63-73 111-130 111S103 270 78 207C103 144 151 95 208 95Zm0 48c-35 0-64 29-64 64s29 63 64 63 64-28 64-63-29-64-64-64Z"/>
-  <circle cx="208" cy="207" r="37" fill="#E8A100"/>
-  <circle cx="208" cy="207" r="18" fill="#250A33"/>
-  <path fill="#8C3320" d="m304 242 48 15-26 19 5 43-38-20-35 22 10-44-30-29 46-7 20-42Z"/>
-  <path fill="none" stroke="#250A33" stroke-width="7" d="M118 310c16-16 31-16 47 0m-25-26v49m88-8c15-18 32-20 51-5m-26-28 1 48"/>
+  <desc id="desc">A purple eye, acid-lime hand, hot-pink center, and deep-teal stamp arranged as an abstract archive mark.</desc>
+  <path fill="#DDF000" d="M208 36c42 15 72 54 80 101l38 30-38 19c-12 39-40 72-80 90-42-18-70-51-82-90l-36-19 36-30c10-47 40-86 82-101Z"/>
+  <path fill="#4A1259" d="M208 95c57 0 105 49 130 112-25 63-73 111-130 111S103 270 78 207C103 144 151 95 208 95Zm0 48c-35 0-64 29-64 64s29 63 64 63 64-28 64-63-29-64-64-64Z"/>
+  <circle cx="208" cy="207" r="37" fill="#ED1478"/>
+  <circle cx="208" cy="207" r="18" fill="#4A1259"/>
+  <path fill="#0B7A78" d="m304 242 48 15-26 19 5 43-38-20-35 22 10-44-30-29 46-7 20-42Z"/>
+  <path fill="none" stroke="#4A1259" stroke-width="7" d="M118 310c16-16 31-16 47 0m-25-26v49m88-8c15-18 32-20 51-5m-26-28 1 48"/>
 </svg>

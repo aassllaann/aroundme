@@ -1,18 +1,23 @@
 :root {
-  --yellow-main: #e8a100;
-  --yellow-hot: #f2b800;
-  --yellow-sick: #c99000;
-  --purple-main: #3d1152;
-  --purple-bruise: #5a1f73;
-  --purple-deep: #250a33;
-  --bone: #ede4d0;
-  --dust: #e2d5b8;
-  --line-faint: #d8c9a3;
-  --line-soft: #c4b282;
-  --line-strong: #8c7a4a;
-  --green-bruise: #6b7a2e;
-  --red-rust: #8c3320;
-  --black-purple: #14061c;
+  --sky-pink: #FF929D;
+  --sky-yellow: #FEE066;
+  --sky-green: #B6E063;
+  --gradient-sky: linear-gradient(180deg, var(--sky-pink) 0%, var(--sky-yellow) 55%, var(--sky-green) 100%);
+  --purple-deep: #7b2992;
+  --pink-hot: #ED1478;
+  --lime-acid: #DDF000;
+  --teal-deep: #0B7A78;
+  --white-mist: #FDF9F2;
+  --white-panel: rgba(255, 255, 255, 0.55);
+  --panel-pink: #f1e3e29d;
+  --title-ink: #f1f1f1;
+
+  /* Cold archive palette: scoped to Works, About, and project detail pages. */
+  --archive-bg: #eeeeee;
+  --archive-ink: #040108;
+  --archive-purple: #AA6EC6;
+  --archive-mint: #59DCA8;
+  --archive-coral: #F8728B;
 
   --space-1: 0.5rem;
   --space-2: 1rem;

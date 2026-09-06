@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="Scentscape material placeholder">
+  <rect width="1200" height="900" fill="#AA6EC6"/>
+  <g fill="none" stroke="#040108" stroke-width="5"><circle cx="600" cy="418" r="266"/><circle cx="600" cy="418" r="169"/><path d="M600 152v532M370 285l460 266M370 551l460-266"/></g>
+  <g fill="#F8728B"><circle cx="600" cy="152" r="38"/><circle cx="830" cy="285" r="38"/><circle cx="830" cy="551" r="38"/><circle cx="600" cy="684" r="38"/><circle cx="370" cy="551" r="38"/><circle cx="370" cy="285" r="38"/></g>
+  <circle cx="600" cy="418" r="96" fill="#59DCA8"/><text x="72" y="834" fill="#040108" font-family="monospace" font-size="28">SCENTSCAPE / INTERFACE MATERIALS PENDING</text>
+</svg>

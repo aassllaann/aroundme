@@ -1,9 +1,9 @@
 ---
 title: Detective Archive Prototype
-order: 2
+order: 6
 year: '2026'
 type: ARCHIVE WEB / AI / INTERACTION
-categories: ['Featured', 'Archive·Web']
+categories: ['Archive·Web']
 featured: true
 summary: A forthcoming archive entry for an experimental detective archive on the web.
 preview:

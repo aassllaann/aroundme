@@ -1,9 +1,9 @@
 ---
 title: Sacrificial Lamb Instruction Manual
-order: 3
+order: 7
 year: '2026'
 type: IMAGE STUDIES / EDITORIAL
-categories: ['Featured', 'Image Studies']
+categories: ['Image Studies']
 featured: true
 summary: A forthcoming archive entry for an illustrated instruction manual.
 preview:

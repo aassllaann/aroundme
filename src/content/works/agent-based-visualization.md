@@ -1,9 +1,9 @@
 ---
 title: Agent-Based Visualization System
-order: 1
+order: 5
 year: '2026'
 type: AI SYSTEMS / VISUALIZATION
-categories: ['Featured', 'AI·Systems']
+categories: ['AI·Systems']
 featured: true
 summary: A forthcoming archive entry for a system-led visualization study.
 preview:
