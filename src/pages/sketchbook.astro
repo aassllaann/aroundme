@@ -2,6 +2,8 @@
 import { existsSync, readdirSync } from 'node:fs';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteNav from '../components/layout/SiteNav.astro';
+import '../styles/archive-b.css';
+import '../styles/sketchbook-browser.css';
 
 const imageExtension = /\.(avif|gif|jpe?g|png|svg|webp)$/i;
 const sketchbookDirectory = `${process.cwd()}/public/images/works/sketchbook`;
@@ -28,18 +30,35 @@ const images = existsSync(sketchbookDirectory)
       <p class="archive-kicker"><span>03</span> UNCLASSIFIED IMAGE FILES</p>
       <h1 id="sketchbook-title">SKETCHBOOK</h1>
       <p>Loose visual notes, pixel studies, fragments, and experiments.</p>
+      {images.length > 0 && (
+        <div class="sketchbook-view-controls" role="group" aria-label="Sketchbook view">
+          <button type="button" data-sketchbook-view="overview" aria-pressed="true">OVERVIEW</button>
+          <button type="button" data-sketchbook-view="single" aria-pressed="false">ONE AT A TIME</button>
+        </div>
+      )}
     </section>
 
     {images.length > 0 ? (
-      <section class="sketchbook-carousel" aria-label="Sketchbook image carousel">
+      <section class="sketchbook-overview" data-sketchbook-overview aria-label="Sketchbook overview">
         {images.map((image: { src: string; alt: string }, index: number) => (
-          <figure class="sketchbook-image">
+          <figure class="sketchbook-image" id={`sketchbook-file-${index + 1}`}>
             <button type="button" class="sketchbook-image__open" data-sketchbook-open aria-label={`Open image ${index + 1} of ${images.length}`}>
               <img src={image.src} alt={image.alt} loading={index < 3 ? 'eager' : 'lazy'} />
             </button>
             <figcaption>FILE / {String(index + 1).padStart(2, '0')}</figcaption>
           </figure>
         ))}
+      </section>
+      <section class="sketchbook-single" data-sketchbook-single hidden aria-label="Single sketchbook image">
+        <p class="sketchbook-single__counter" data-sketchbook-single-counter>FILE / 01 OF {String(images.length).padStart(2, '0')}</p>
+        <button type="button" class="sketchbook-single__image" data-sketchbook-single-open aria-label={`Open image 1 of ${images.length}`}>
+          <img data-sketchbook-single-image src={images[0].src} alt={images[0].alt} />
+        </button>
+        <div class="sketchbook-single__controls" aria-label="Single image controls">
+          <button type="button" data-sketchbook-single-previous disabled>← PREVIOUS</button>
+          <button type="button" data-sketchbook-single-overview>RETURN TO OVERVIEW</button>
+          <button type="button" data-sketchbook-single-next>NEXT →</button>
+        </div>
       </section>
     ) : (
       <section class="sketchbook-empty" aria-label="Sketchbook pending images">
@@ -71,42 +90,97 @@ const images = existsSync(sketchbookDirectory)
   const closeButton = document.querySelector<HTMLButtonElement>('[data-sketchbook-close]');
   const previousButton = document.querySelector<HTMLButtonElement>('[data-sketchbook-previous]');
   const nextButton = document.querySelector<HTMLButtonElement>('[data-sketchbook-next]');
+  const viewButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-sketchbook-view]'));
+  const overview = document.querySelector<HTMLElement>('[data-sketchbook-overview]');
+  const single = document.querySelector<HTMLElement>('[data-sketchbook-single]');
+  const singleImage = document.querySelector<HTMLImageElement>('[data-sketchbook-single-image]');
+  const singleCounter = document.querySelector<HTMLElement>('[data-sketchbook-single-counter]');
+  const singleOpenButton = document.querySelector<HTMLButtonElement>('[data-sketchbook-single-open]');
+  const singlePrevious = document.querySelector<HTMLButtonElement>('[data-sketchbook-single-previous]');
+  const singleNext = document.querySelector<HTMLButtonElement>('[data-sketchbook-single-next]');
+  const overviewButton = document.querySelector<HTMLButtonElement>('[data-sketchbook-single-overview]');
   let activeIndex = 0;
+  let activeView: 'overview' | 'single' = 'overview';
   let swipeStartX = 0;
+  let triggeringButton: HTMLButtonElement | undefined;
+
+  function setActiveIndex(index: number) {
+    if (galleryImages.length === 0) return;
+    activeIndex = Math.max(0, Math.min(index, galleryImages.length - 1));
+    const image = galleryImages[activeIndex];
+    if (singleImage) {
+      singleImage.src = image.currentSrc || image.src;
+      singleImage.alt = image.alt;
+    }
+    if (singleCounter) singleCounter.textContent = `FILE / ${String(activeIndex + 1).padStart(2, '0')} OF ${String(galleryImages.length).padStart(2, '0')}`;
+    if (singleOpenButton) singleOpenButton.setAttribute('aria-label', `Open image ${activeIndex + 1} of ${galleryImages.length}`);
+    if (singlePrevious) singlePrevious.disabled = activeIndex === 0;
+    if (singleNext) singleNext.disabled = activeIndex === galleryImages.length - 1;
+  }
 
   function showImage(index: number) {
     if (!lightboxImage || !lightboxCaption || galleryImages.length === 0) return;
-    activeIndex = (index + galleryImages.length) % galleryImages.length;
+    setActiveIndex(index);
     const image = galleryImages[activeIndex];
     lightboxImage.src = image.currentSrc || image.src;
     lightboxImage.alt = image.alt;
     lightboxCaption.textContent = `FILE / ${String(activeIndex + 1).padStart(2, '0')}`;
+    if (previousButton) previousButton.disabled = activeIndex === 0;
+    if (nextButton) nextButton.disabled = activeIndex === galleryImages.length - 1;
   }
 
-  function openLightbox(index: number) {
+  function openLightbox(index: number, trigger?: HTMLButtonElement) {
     if (!lightbox) return;
+    triggeringButton = trigger ?? openButtons[index];
     showImage(index);
     if (!lightbox.open) lightbox.showModal();
     closeButton?.focus();
+  }
+
+  function setView(view: 'overview' | 'single') {
+    activeView = view;
+    if (overview) overview.hidden = view !== 'overview';
+    if (single) single.hidden = view !== 'single';
+    viewButtons.forEach((button) => {
+      const active = button.dataset.sketchbookView === view;
+      button.setAttribute('aria-pressed', String(active));
+    });
+    setActiveIndex(activeIndex);
   }
 
   function closeLightbox() {
     if (lightbox?.open) lightbox.close();
   }
 
-  openButtons.forEach((button, index) => button.addEventListener('click', () => openLightbox(index)));
+  openButtons.forEach((button, index) => button.addEventListener('click', () => openLightbox(index, button)));
+  viewButtons.forEach((button) => button.addEventListener('click', () => setView(button.dataset.sketchbookView === 'single' ? 'single' : 'overview')));
+  singleOpenButton?.addEventListener('click', () => openLightbox(activeIndex, singleOpenButton));
+  singlePrevious?.addEventListener('click', () => setActiveIndex(activeIndex - 1));
+  singleNext?.addEventListener('click', () => setActiveIndex(activeIndex + 1));
+  overviewButton?.addEventListener('click', () => setView('overview'));
   closeButton?.addEventListener('click', closeLightbox);
   previousButton?.addEventListener('click', () => showImage(activeIndex - 1));
   nextButton?.addEventListener('click', () => showImage(activeIndex + 1));
 
   document.addEventListener('keydown', (event) => {
-    if (!lightbox?.open) return;
-    if (event.key === 'ArrowLeft') { event.preventDefault(); showImage(activeIndex - 1); }
-    if (event.key === 'ArrowRight') { event.preventDefault(); showImage(activeIndex + 1); }
+    if (lightbox?.open) {
+      if (event.key === 'ArrowLeft') { event.preventDefault(); showImage(activeIndex - 1); }
+      if (event.key === 'ArrowRight') { event.preventDefault(); showImage(activeIndex + 1); }
+      return;
+    }
+    const target = event.target as HTMLElement | null;
+    const editing = target?.matches('input, textarea, select, [contenteditable="true"]');
+    if (activeView !== 'single' || editing) return;
+    if (event.key === 'ArrowLeft' && activeIndex > 0) { event.preventDefault(); setActiveIndex(activeIndex - 1); }
+    if (event.key === 'ArrowRight' && activeIndex < galleryImages.length - 1) { event.preventDefault(); setActiveIndex(activeIndex + 1); }
   });
 
   lightbox?.addEventListener('click', (event) => {
     if (event.target === lightbox) closeLightbox();
+  });
+  lightbox?.addEventListener('close', () => {
+    triggeringButton?.focus();
+    triggeringButton = undefined;
   });
   lightbox?.addEventListener('pointerdown', (event) => { swipeStartX = event.clientX; });
   lightbox?.addEventListener('pointerup', (event) => {
@@ -114,4 +188,6 @@ const images = existsSync(sketchbookDirectory)
     if (Math.abs(distance) < 48) return;
     showImage(distance < 0 ? activeIndex + 1 : activeIndex - 1);
   });
+
+  setActiveIndex(0);
 </script>

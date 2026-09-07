@@ -1,0 +1,170 @@
+/*
+ * B palette for the archive pages.
+ * Kept scoped to inner pages so the poster homepage can evolve independently.
+ */
+.works-page,
+.project-page,
+.sketchbook-page,
+.about-page {
+  --archive-paper: #fdf9f2;
+  --archive-ink-b: #171318;
+  --archive-vermilion: #e5483b;
+  --archive-acid: #ddf000;
+
+  --purple-deep: var(--archive-ink-b);
+  --pink-hot: var(--archive-vermilion);
+  --lime-acid: var(--archive-acid);
+  --teal-deep: var(--archive-ink-b);
+  --white-mist: var(--archive-paper);
+  --white-panel: color-mix(in srgb, var(--archive-paper) 84%, transparent);
+  --panel-pink: var(--archive-paper);
+  --archive-bg: var(--archive-paper);
+  --archive-ink: var(--archive-ink-b);
+  --archive-purple: var(--archive-ink-b);
+  --archive-mint: var(--archive-acid);
+  --archive-coral: var(--archive-vermilion);
+
+  background: var(--archive-paper);
+  color: var(--archive-ink-b);
+}
+
+.works-page .works-header,
+.project-page .project-header,
+.sketchbook-page .works-header,
+.about-page .about-header {
+  background: var(--archive-paper);
+}
+
+.works-page .works-intro,
+.project-page .project-hero,
+.sketchbook-page .sketchbook-intro,
+.about-page .about-intro {
+  position: relative;
+}
+
+.works-page .works-intro::after,
+.project-page .project-hero::after,
+.sketchbook-page .sketchbook-intro::after,
+.about-page .about-intro::after {
+  position: absolute;
+  top: clamp(1.4rem, 4vw, 4rem);
+  right: clamp(1rem, 4vw, 4rem);
+  width: clamp(0.85rem, 1.8vw, 1.5rem);
+  aspect-ratio: 1;
+  background: var(--archive-vermilion);
+  content: '';
+}
+
+.works-page .works-taxonomy {
+  min-height: auto;
+  padding-bottom: clamp(var(--space-4), 6vw, var(--space-6));
+}
+
+.works-page .works-projector-link {
+  display: inline-block;
+  margin-top: var(--space-2);
+  color: var(--archive-vermilion);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .68rem;
+  letter-spacing: .04em;
+  text-underline-offset: .28em;
+}
+
+.works-page .works-projector-link:hover,
+.works-page .works-projector-link:focus-visible {
+  color: var(--archive-ink-b);
+  outline: none;
+}
+
+.works-page .works-category:hover,
+.works-page .works-category:focus-visible,
+.works-page .works-category.is-active {
+  background: color-mix(in srgb, var(--archive-acid) 55%, var(--archive-paper));
+}
+
+.works-page .work-row:hover,
+.works-page .work-row:focus-visible,
+.works-page .work-row.is-active {
+  background: color-mix(in srgb, var(--archive-acid) 35%, var(--archive-paper));
+}
+
+.works-page .works-results__back:hover,
+.works-page .works-results__back:focus-visible,
+.project-page :is(.project-back, .project-footer a, .work-card__open):hover,
+.project-page :is(.project-back, .project-footer a, .work-card__open):focus-visible {
+  color: var(--archive-vermilion);
+}
+
+.project-page .project-header {
+  border-bottom-color: color-mix(in srgb, var(--archive-ink-b) 28%, transparent);
+}
+
+.project-page .photobook {
+  background: var(--archive-ink-b);
+}
+
+.project-page .photobook__counter {
+  color: var(--archive-vermilion);
+}
+
+.project-page .project-hero:has(.project-hero__summary) { max-width: 76rem; padding-top: clamp(var(--space-4), 7vw, var(--space-6)); padding-bottom: clamp(var(--space-3), 4vw, var(--space-5)); }
+.project-page .project-hero:has(.project-hero__summary)::after { display: none; }
+.project-page .project-hero:has(.project-hero__summary) h1 { max-width: 13ch; margin-top: var(--space-2); font-size: clamp(3rem, 6vw, 6.8rem); }
+.project-page .project-hero__summary { max-width: 34rem; margin: var(--space-3) 0 0; font-size: clamp(1rem, 1.35vw, 1.25rem); line-height: 1.4; text-wrap: pretty; }
+.project-page .project-hero + .photobook { margin-top: 0; }
+
+.sketchbook-page .sketchbook-image__open:focus-visible {
+  outline-color: var(--archive-vermilion);
+}
+
+.about-page {
+  background: var(--archive-paper);
+}
+
+.about-page .about-intro h1 em {
+  color: var(--archive-vermilion);
+}
+
+.about-page .about-intro { grid-template-columns: minmax(0, 1.1fr) minmax(14rem, .9fr); gap: clamp(var(--space-3), 5vw, var(--space-5)); padding-top: clamp(var(--space-4), 7vw, var(--space-6)); padding-bottom: clamp(var(--space-4), 6vw, var(--space-5)); }
+.about-page .about-intro::after { display: none; }
+.about-page .about-intro h1 { font-size: clamp(3.8rem, 8.6vw, 8.7rem); }
+
+.about-page .record-year {
+  color: var(--archive-vermilion);
+}
+
+.about-page .about-contact__links {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+}
+
+.about-page .about-contact__links a {
+  width: fit-content;
+  color: var(--archive-ink-b);
+  font-family: 'Archivo Narrow', Impact, sans-serif;
+  font-size: clamp(1.7rem, 3vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -.035em;
+  line-height: .95;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .16em;
+}
+
+.about-page .about-contact__links a:hover,
+.about-page .about-contact__links a:focus-visible {
+  color: var(--archive-vermilion);
+}
+
+@media (max-width: 700px) {
+  .works-page .works-intro::after,
+  .project-page .project-hero::after,
+  .sketchbook-page .sketchbook-intro::after,
+  .about-page .about-intro::after {
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .about-page .about-intro { grid-template-columns: 1fr; }
+  .project-page .project-hero:has(.project-hero__summary) h1 { font-size: clamp(3.3rem, 16vw, 5.8rem); }
+}

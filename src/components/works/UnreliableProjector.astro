@@ -1,0 +1,156 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import SiteNav from '../layout/SiteNav.astro';
+
+interface Props {
+  works: CollectionEntry<'works'>[];
+}
+
+const { works } = Astro.props;
+const modes = [
+  { id: 'systems', label: 'SYSTEMS', workIds: ['scentscape', 'agent-product-comparison', 'agent-based-visualization', 'i-ching-grand-strategy'] },
+  { id: 'images', label: 'IMAGES', workIds: ['photography-notes', 'sacrificial-lamb-instruction-manual', 'pixel-monster-studies'] },
+  { id: 'stories', label: 'STORIES', workIds: ['la-table-du-temps', 'detective-archive-prototype', 'video-editing-archive'] },
+] as const;
+const workById = new Map(works.map((work) => [work.id, work]));
+const projectorWorks = modes.flatMap((mode) => mode.workIds
+  .map((id) => workById.get(id))
+  .filter((work): work is CollectionEntry<'works'> => Boolean(work))
+  .map((work) => ({ ...work, mode: mode.id }))
+);
+const assetUrl = (src: string) => `/${src}`;
+const workHref = (work: CollectionEntry<'works'>) => `/works/${work.id}/`;
+---
+
+<main class="projector-page" data-projector>
+  <header class="projector-header">
+    <p class="edition-mark">EXPERIMENT / 01</p>
+    <SiteNav current="works" worksHref="/works/" />
+    <a class="projector-index-link" href="/works/">← STANDARD INDEX</a>
+  </header>
+
+  <section class="projector-intro" aria-labelledby="projector-title">
+    <p class="projector-kicker"><span>01</span> OPTIONAL VIEWING MACHINE</p>
+    <h1 id="projector-title">UNRELIABLE<br />PROJECTOR</h1>
+    <p>Choose a reel, then a frame.</p>
+  </section>
+
+  <section class="projector-machine" aria-label="Projector controls and selected work">
+    <div class="projector-machine__bar">
+      <p>SELECT A REEL</p>
+      <div class="projector-modes" role="group" aria-label="Projector reel">
+        {modes.map((mode, index) => (
+          <button
+            type="button"
+            class:list={{ 'projector-mode': true, 'is-active': index === 0 }}
+            data-projector-mode={mode.id}
+            aria-pressed={index === 0 ? 'true' : 'false'}
+          >
+            <span>{String(index + 1).padStart(2, '0')}</span>{mode.label}
+          </button>
+        ))}
+      </div>
+      <button type="button" class="projector-shuffle" data-projector-shuffle>CHANGE FRAME ↻</button>
+    </div>
+
+    <div class="projector-stage">
+      {projectorWorks.map((work, index) => {
+        const preview = work.data.preview;
+        return (
+          <article class="projector-slide" data-projector-slide={work.mode} data-projector-work={work.id} hidden={index !== 0}>
+            <div class="projector-slide__image">
+              {preview.type === 'image' ? (
+                <img src={assetUrl(preview.src)} alt={preview.alt} />
+              ) : (
+                <video src={assetUrl(preview.src)} poster={assetUrl(preview.poster)} muted loop playsinline aria-label={preview.alt}></video>
+              )}
+            </div>
+            <div class="projector-slide__caption">
+              <p>FRAME / {String(work.data.order).padStart(2, '0')} · {work.mode.toUpperCase()}</p>
+              <h2>{work.data.title}</h2>
+              <p>{work.data.summary}</p>
+              <a href={workHref(work)}>OPEN PROJECT FILE ↗</a>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+    <div class="projector-shelf" aria-label="Works in selected reel">
+      {projectorWorks.map((work, index) => (
+        <button
+          type="button"
+          class:list={{ 'projector-frame': true, 'is-active': index === 0 }}
+          data-projector-frame={work.id}
+          data-projector-frame-mode={work.mode}
+          hidden={work.mode !== 'systems'}
+          aria-pressed={index === 0 ? 'true' : 'false'}
+        >
+          <span>{String(work.data.order).padStart(2, '0')}</span>
+          <strong>{work.data.title}</strong>
+          <small>{work.data.year}</small>
+        </button>
+      ))}
+    </div>
+  </section>
+
+  <footer class="projector-footer">
+    <p>THIS IS A PLAYFUL READING MODE. <a href="/works/">OPEN THE COMPLETE, STABLE INDEX →</a></p>
+  </footer>
+  <p class="projector-status" data-projector-status aria-live="polite"></p>
+</main>
+
+<script>
+  const projector = document.querySelector<HTMLElement>('[data-projector]');
+  const modes = Array.from(projector?.querySelectorAll<HTMLButtonElement>('[data-projector-mode]') ?? []);
+  const frames = Array.from(projector?.querySelectorAll<HTMLButtonElement>('[data-projector-frame]') ?? []);
+  const slides = Array.from(projector?.querySelectorAll<HTMLElement>('[data-projector-slide]') ?? []);
+  const shuffle = projector?.querySelector<HTMLButtonElement>('[data-projector-shuffle]');
+  const status = projector?.querySelector<HTMLElement>('[data-projector-status]');
+  let activeMode = 'systems';
+  let activeWork = frames.find((frame) => frame.classList.contains('is-active'))?.dataset.projectorFrame ?? '';
+
+  function selectWork(workId: string, shouldFocus = false) {
+    const selectedFrame = frames.find((frame) => frame.dataset.projectorFrame === workId);
+    if (!selectedFrame) return;
+    activeWork = workId;
+    frames.forEach((frame) => {
+      const active = frame === selectedFrame;
+      frame.classList.toggle('is-active', active);
+      frame.setAttribute('aria-pressed', String(active));
+    });
+    slides.forEach((slide) => {
+      const active = slide.dataset.projectorWork === workId;
+      slide.hidden = !active;
+      const video = slide.querySelector<HTMLVideoElement>('video');
+      if (video) active ? void video.play().catch(() => undefined) : video.pause();
+    });
+    const frameNumber = selectedFrame.querySelector('span')?.textContent?.trim() ?? '';
+    const frameTitle = selectedFrame.querySelector('strong')?.textContent?.trim() ?? '';
+    if (status) status.textContent = `Frame ${frameNumber}: ${frameTitle}.`;
+    if (shouldFocus) selectedFrame.focus();
+  }
+
+  function selectMode(mode: string, shouldFocus = false) {
+    activeMode = mode;
+    modes.forEach((button) => {
+      const active = button.dataset.projectorMode === mode;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+    const visibleFrames = frames.filter((frame) => frame.dataset.projectorFrameMode === mode);
+    frames.forEach((frame) => { frame.hidden = frame.dataset.projectorFrameMode !== mode; });
+    const nextWork = visibleFrames[0]?.dataset.projectorFrame;
+    if (nextWork) selectWork(nextWork, shouldFocus);
+  }
+
+  modes.forEach((button) => button.addEventListener('click', () => selectMode(button.dataset.projectorMode ?? 'systems', true)));
+  frames.forEach((frame) => frame.addEventListener('click', () => selectWork(frame.dataset.projectorFrame ?? '', true)));
+  shuffle?.addEventListener('click', () => {
+    const visible = frames.filter((frame) => frame.dataset.projectorFrameMode === activeMode);
+    if (visible.length < 2) return;
+    const candidates = visible.filter((frame) => frame.dataset.projectorFrame !== activeWork);
+    const next = candidates[Math.floor(Math.random() * candidates.length)];
+    if (next?.dataset.projectorFrame) selectWork(next.dataset.projectorFrame);
+  });
+</script>

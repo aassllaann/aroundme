@@ -1,0 +1,131 @@
+---
+const selectedWorks = [
+  {
+    index: '01',
+    title: 'Photography Portfolio',
+    type: 'PHOTOGRAPHY / PERSONAL ARCHIVE',
+    href: '/works/photography-notes/',
+    src: '/images/works/photography-notes/book/spread-03.jpg',
+    alt: 'Photography Portfolio spread with water reflections and architecture',
+    className: 'selected-work--photography',
+  },
+  {
+    index: '02',
+    title: 'Eye Study',
+    type: 'SKETCHBOOK / PAINTING',
+    href: '/sketchbook/',
+    src: '/images/works/sketchbook/FREE_saywhateverI_7.jpg',
+    alt: 'Sketchbook painting spread with a large blue eye and handwritten text',
+    className: 'selected-work--eye',
+  },
+  {
+    index: '03',
+    title: 'Turn, Return',
+    type: 'SKETCHBOOK / PAINTING',
+    href: '/sketchbook/',
+    src: '/images/works/sketchbook/FREE_saywhateverI_5.jpg',
+    alt: 'Sketchbook painting spread with two painted figures on black',
+    className: 'selected-work--turn',
+  },
+];
+---
+
+<main class="poster-page">
+  <header class="poster-nav" aria-label="Primary navigation">
+    <a class="poster-nav__name" href="/" aria-label="Home">LI YETONG / ASLAN</a>
+    <nav class="poster-nav__links" aria-label="Primary navigation">
+      <a href="#selected">SELECTED</a>
+      <a href="/works/">WORKS</a>
+      <a href="/about/">ABOUT</a>
+    </nav>
+    <p class="poster-nav__edition">ARCHIVE / 01</p>
+  </header>
+
+  <section class="poster-hero" aria-labelledby="poster-title">
+    <p class="poster-hero__catalog">A PERSONAL ARCHIVE OF<br />SYSTEMS, IMAGES, STORIES.</p>
+    <p class="poster-hero__note">SINGAPORE<br />2026</p>
+
+    <div class="poster-hero__type" aria-hidden="true">
+      <span>LI</span>
+      <span>YETONG</span>
+    </div>
+
+    <figure class="poster-fragment poster-fragment--eye">
+      <button type="button" class="poster-eye-trigger" data-eye-trigger aria-label="Animate the eye study">
+        <img src="/images/works/sketchbook/FREE_saywhateverI_7.jpg" alt="" />
+      </button>
+      <figcaption>SKETCHBOOK / EYE STUDY</figcaption>
+    </figure>
+
+    <figure class="poster-fragment poster-fragment--photo">
+      <img src="/images/works/photography-notes/book/spread-03.jpg" alt="" />
+      <figcaption>PHOTOGRAPHY / PRIVATE LIGHT</figcaption>
+    </figure>
+
+    <p id="poster-title" class="poster-hero__statement">
+      CREATIVE TECHNOLOGIST<br />WORKING BETWEEN AI,<br />INTERACTION &amp; VISUAL NARRATIVE.
+    </p>
+
+    <a class="poster-hero__enter" href="#selected">ENTER SELECTED WORKS <span aria-hidden="true">↓</span></a>
+  </section>
+
+  <section id="selected" class="selected-works" aria-labelledby="selected-title">
+    <header class="selected-works__header">
+      <p>01 / SELECTED MATERIAL</p>
+      <h1 id="selected-title">THREE<br /><em>WAYS IN</em></h1>
+      <p class="selected-works__intro">Photography and painted notes: traces of looking, remembered places, and imagined figures.</p>
+    </header>
+
+    <div class="selected-works__grid">
+      {selectedWorks.map((work) => (
+        <article class:list={['selected-work', work.className]}>
+          <a href={work.href} class="selected-work__image">
+            <img src={work.src} alt={work.alt} loading="lazy" />
+            <span aria-hidden="true">OPEN ↗</span>
+          </a>
+          <div class="selected-work__meta">
+            <p>{work.index}</p>
+            <div>
+              <h2>{work.title}</h2>
+              <p>{work.type}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+    <a class="selected-works__all" href="/works/">VIEW THE COMPLETE WORKS INDEX ↗</a>
+  </section>
+
+  <section class="poster-afterword" aria-label="Practice statement">
+    <p class="poster-afterword__mark">02 / WORKING NOTE</p>
+    <p>I use technical systems to make concepts, experiences, and images legible. The work moves between research, visual observation, interface, and fiction.</p>
+    <a href="/about/">MORE ABOUT THE PRACTICE ↗</a>
+  </section>
+
+  <footer class="poster-footer">
+    <a href="mailto:YETONG001@e.ntu.edu.sg">YETONG001@e.ntu.edu.sg ↗</a>
+    <a href="https://github.com/aassllaann" target="_blank" rel="noreferrer">GITHUB / AASSLLAANN ↗</a>
+  </footer>
+  <p class="poster-motion-status" data-eye-status aria-live="polite"></p>
+</main>
+
+<script>
+  const eyeTrigger = document.querySelector<HTMLButtonElement>('[data-eye-trigger]');
+  const eyeStatus = document.querySelector<HTMLElement>('[data-eye-status]');
+  let eyeTimer: ReturnType<typeof setTimeout> | undefined;
+
+  function wakeEye() {
+    if (!eyeTrigger) return;
+    eyeTrigger.classList.remove('is-awake');
+    void eyeTrigger.offsetWidth;
+    eyeTrigger.classList.add('is-awake');
+    if (eyeStatus) eyeStatus.textContent = 'Eye study animated.';
+    if (eyeTimer) clearTimeout(eyeTimer);
+    eyeTimer = setTimeout(() => {
+      eyeTrigger.classList.remove('is-awake');
+      if (eyeStatus) eyeStatus.textContent = '';
+    }, 520);
+  }
+
+  eyeTrigger?.addEventListener('click', wakeEye);
+</script>

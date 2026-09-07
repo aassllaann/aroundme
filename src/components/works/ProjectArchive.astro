@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import PhotographyFlipbook from './PhotographyFlipbook.astro';
 
 interface Props {
   work: CollectionEntry<'works'>;
@@ -9,6 +10,24 @@ interface Props {
 const { work, Content } = Astro.props;
 const { preview } = work.data;
 const assetUrl = (src: string) => `/${src}`;
+const isPhotographyPortfolio = work.id === 'photography-notes';
+const implementedPrototypeIds = new Set([
+  'scentscape',
+  'la-table-du-temps',
+  'i-ching-grand-strategy',
+  'agent-product-comparison',
+]);
+const hasImplementedPrototype = implementedPrototypeIds.has(work.id);
+const projectStatus = isPhotographyPortfolio
+  ? 'PORTFOLIO EDITION / 46 SPREADS'
+  : hasImplementedPrototype
+    ? 'WORKING PROTOTYPE / SCREEN CAPTURES PENDING'
+    : 'MATERIALS BEING INDEXED';
+const previewCaption = isPhotographyPortfolio
+  ? 'PORTFOLIO EDITION — COVER SPREAD'
+  : hasImplementedPrototype
+    ? 'PROJECT PREVIEW — DESIGNED PLACEHOLDER / SCREEN CAPTURES PENDING'
+    : 'PROJECT PREVIEW — MATERIALS BEING INDEXED';
 ---
 
 <main class="project-page">
@@ -21,24 +40,29 @@ const assetUrl = (src: string) => `/${src}`;
   <section class="project-hero" aria-labelledby="project-title">
     <p class="archive-kicker"><span>{String(work.data.order).padStart(2, '0')}</span> PROJECT FILE</p>
     <h1 id="project-title">{work.data.title}</h1>
+    {isPhotographyPortfolio && <p class="project-hero__summary">{work.data.summary}</p>}
   </section>
 
-  <section class="project-media" aria-label={`${work.data.title} preview`}>
-    <div class="project-media__intro">
-      <p class="project-media__label">PROJECT INTRODUCTION</p>
-      <p class="project-summary">{work.data.summary}</p>
-    </div>
-    <figure class="project-media__figure">
-      {preview.type === 'image' ? (
-        <img src={assetUrl(preview.src)} alt={preview.alt} />
-      ) : (
-        <video src={assetUrl(preview.src)} poster={assetUrl(preview.poster)} controls playsinline>
-          Your browser does not support embedded video.
-        </video>
-      )}
-      <figcaption>PROJECT PREVIEW — REPLACEABLE MATERIAL</figcaption>
-    </figure>
-  </section>
+  {!isPhotographyPortfolio && (
+    <section class="project-media" aria-label={`${work.data.title} preview`}>
+      <div class="project-media__intro">
+        <p class="project-media__label">PROJECT INTRODUCTION</p>
+        <p class="project-summary">{work.data.summary}</p>
+      </div>
+      <figure class="project-media__figure">
+        {preview.type === 'image' ? (
+          <img src={assetUrl(preview.src)} alt={preview.alt} />
+        ) : (
+          <video src={assetUrl(preview.src)} poster={assetUrl(preview.poster)} controls playsinline>
+            Your browser does not support embedded video.
+          </video>
+        )}
+        <figcaption>{previewCaption}</figcaption>
+      </figure>
+    </section>
+  )}
+
+  {isPhotographyPortfolio && <PhotographyFlipbook />}
 
   <section class="project-record">
     <aside class="project-meta" aria-label="Project metadata">
@@ -46,7 +70,7 @@ const assetUrl = (src: string) => `/${src}`;
         <div><dt>TYPE</dt><dd>{work.data.type}</dd></div>
         <div><dt>YEAR</dt><dd>{work.data.year}</dd></div>
         <div><dt>INDEX</dt><dd>{work.data.categories.join(' · ')}</dd></div>
-        <div><dt>STATUS</dt><dd>MATERIALS IN PROGRESS</dd></div>
+        <div><dt>STATUS</dt><dd>{projectStatus}</dd></div>
       </dl>
     </aside>
     <article class="project-body"><Content /></article>

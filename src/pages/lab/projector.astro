@@ -1,0 +1,12 @@
+---
+import { getCollection } from 'astro:content';
+import UnreliableProjector from '../../components/works/UnreliableProjector.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/projector-lab.css';
+
+const works = (await getCollection('works')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="The Unreliable Projector — Aslan Li" page="works">
+  <UnreliableProjector {works} />
+</BaseLayout>

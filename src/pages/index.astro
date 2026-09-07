@@ -1,13 +1,9 @@
 ---
-import HeroArchive from '../components/home/HeroArchive.astro';
-import { getCollection } from 'astro:content';
+import PosterHome from '../components/home/PosterHome.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import WorksIndex from '../components/works/WorksIndex.astro';
-
-const works = (await getCollection('works')).sort((a, b) => a.data.order - b.data.order);
+import '../styles/poster-home.css';
 ---
 
 <BaseLayout title="Aslan Li — Creative Technologist" page="index">
-  <HeroArchive />
-  <WorksIndex {works} embedded />
+  <PosterHome />
 </BaseLayout>

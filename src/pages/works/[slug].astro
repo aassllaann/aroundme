@@ -2,6 +2,7 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import ProjectArchive from '../../components/works/ProjectArchive.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/archive-b.css';
 
 export async function getStaticPaths() {
   const works = await getCollection('works');

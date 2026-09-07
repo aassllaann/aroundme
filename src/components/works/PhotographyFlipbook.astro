@@ -1,0 +1,93 @@
+---
+const spreads = Array.from({ length: 46 }, (_, index) => {
+  const page = String(index + 1).padStart(2, '0');
+  return {
+    number: page,
+    src: `/images/works/photography-notes/book/spread-${page}.jpg`,
+  };
+});
+---
+
+<section class="photobook" aria-labelledby="photobook-title" data-photobook tabindex="0">
+  <header class="photobook__header">
+    <div>
+      <p class="photobook__label">PORTFOLIO EDITION / 46 SPREADS</p>
+      <h2 id="photobook-title">READING MODE</h2>
+    </div>
+    <p class="photobook__counter" data-photobook-counter>01 / 49</p>
+  </header>
+
+  <div class="photobook__stage" data-photobook-stage>
+    <div class="photobook__pages" data-photobook-pages>
+      <article class="photobook__page" data-density="hard">
+        <img src="/images/works/photography-notes/book/cover-spread.png" alt="Photography portfolio cover, 2023–2026" />
+      </article>
+      <article class="photobook__page photobook__page--black" aria-hidden="true"></article>
+      {spreads.map((spread) => (
+        <article class="photobook__page">
+          <img src={spread.src} alt={`Photography portfolio spread ${spread.number}`} />
+        </article>
+      ))}
+      <article class="photobook__page" data-density="hard">
+        <img src="/images/works/photography-notes/book/back-cover.png" alt="Photography portfolio back cover with a bird drawing" />
+      </article>
+    </div>
+  </div>
+
+  <div class="photobook__controls" aria-label="Photography portfolio controls">
+    <button type="button" data-photobook-previous>← PREVIOUS</button>
+    <p>DRAG A CORNER · SWIPE · USE ARROW KEYS</p>
+    <button type="button" data-photobook-next>NEXT →</button>
+  </div>
+</section>
+
+<script>
+  import { PageFlip } from 'page-flip';
+
+  const book = document.querySelector<HTMLElement>('[data-photobook]');
+  const stage = book?.querySelector<HTMLElement>('[data-photobook-stage]');
+  const pages = book?.querySelector<HTMLElement>('[data-photobook-pages]');
+  const previous = book?.querySelector<HTMLButtonElement>('[data-photobook-previous]');
+  const next = book?.querySelector<HTMLButtonElement>('[data-photobook-next]');
+  const counter = book?.querySelector<HTMLElement>('[data-photobook-counter]');
+
+  if (book && stage && pages && previous && next && counter) {
+    const pageFlip = new PageFlip(stage, {
+      width: 900,
+      height: 642,
+      size: 'stretch',
+      minWidth: 280,
+      maxWidth: 980,
+      minHeight: 200,
+      maxHeight: 700,
+      drawShadow: true,
+      maxShadowOpacity: 0.28,
+      flippingTime: 780,
+      usePortrait: true,
+      showCover: true,
+      mobileScrollSupport: false,
+      swipeDistance: 28,
+      clickEventForward: true,
+    });
+
+    const pageElements = Array.from(pages.querySelectorAll<HTMLElement>('.photobook__page'));
+    pageFlip.loadFromHTML(pageElements);
+
+    function updateControls(pageIndex: number) {
+      const total = pageFlip.getPageCount();
+      if (counter) counter.textContent = `${String(pageIndex + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+      if (previous) previous.disabled = pageIndex === 0;
+      if (next) next.disabled = pageIndex >= total - 1;
+    }
+
+    updateControls(0);
+    pageFlip.on('flip', (event: { data: number }) => updateControls(event.data));
+    previous.addEventListener('click', () => pageFlip.flipPrev('top'));
+    next.addEventListener('click', () => pageFlip.flipNext('top'));
+
+    book.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') pageFlip.flipPrev('top');
+      if (event.key === 'ArrowRight') pageFlip.flipNext('top');
+    });
+  }
+</script>

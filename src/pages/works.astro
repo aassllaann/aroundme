@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import SiteNav from '../components/layout/SiteNav.astro';
 import WorksIndex from '../components/works/WorksIndex.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/archive-b.css';
 
 const works = (await getCollection('works')).sort((a, b) => a.data.order - b.data.order);
 ---
