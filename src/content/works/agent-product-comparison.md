@@ -8,8 +8,8 @@ featured: false
 summary: A conversational recommendation prototype that combines structured intent parsing, scenario rules, product comparison, and explanatory visual analysis.
 preview:
   type: image
-  src: images/works/agent-product-comparison/preview.svg
-  alt: Designed placeholder for Agent Product Comparison; interface imagery pending
+  src: images/works/agent-product-comparison/thumbnail-illustration.png
+  alt: Hand-drawn figure holding a camera with headphones, a handheld game device, and a speaker
 ---
 
 ## From a vague request to a comparable choice

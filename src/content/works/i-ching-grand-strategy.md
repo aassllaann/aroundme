@@ -3,13 +3,13 @@ title: I Ching Grand Strategy
 order: 3
 year: '2026–'
 type: GAME SYSTEM / AI NARRATIVE
-categories: ['AI·Systems']
+categories: ['AI·Systems', 'Game·Project']
 featured: true
 summary: An in-development strategy and visual-novel game where I Ching hexagrams become a state system for AI-driven war narratives and player decisions.
 preview:
   type: image
-  src: images/works/i-ching-grand-strategy/preview.svg
-  alt: Designed placeholder for I Ching Grand Strategy; game captures pending
+  src: images/works/i-ching-grand-strategy/thumbnail-illustration.png
+  alt: Hand-drawn strategist holding a calligraphy brush over a flowing path and three game tokens
 ---
 
 ## A strategic reading of change

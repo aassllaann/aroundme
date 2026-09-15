@@ -8,8 +8,8 @@ featured: true
 summary: An interactive olfactory atlas that translates perfume data into a visual, searchable, and AI-assisted sensory interface.
 preview:
   type: image
-  src: images/works/scentscape/preview.svg
-  alt: Designed placeholder for Scentscape; interface imagery pending
+  src: images/works/scentscape/thumbnail-illustration-v2.png
+  alt: Hand-drawn illustration of a perfume bottle releasing scent ribbons, petals, and leaves
 ---
 
 ## An olfactory atlas

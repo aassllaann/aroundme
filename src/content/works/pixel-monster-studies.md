@@ -3,7 +3,7 @@ title: Pixel Monster Studies
 order: 8
 year: '2026'
 type: SKETCHBOOK / PIXEL ART
-categories: ['Image Studies']
+categories: ['Game·Character']
 featured: true
 summary: A forthcoming archive entry for character and pixel-image studies.
 preview:

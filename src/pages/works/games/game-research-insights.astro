@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import SiteNav from '../../../components/layout/SiteNav.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { gameDirectories } from '../../../data/work-categories.js';
+import '../../../styles/archive-b.css';
+
+const category = gameDirectories.find((item) => item.id === 'game-research-insights')!;
+const works = (await getCollection('works')).filter((work) => work.data.categories.includes(category.contentCategory)).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Game Research & Insights — Aslan Li" page="works">
+  <main id="main-content" class="works-page research-directory-page">
+    <header class="works-header">
+      <a class="archive-home-link" href="/">LI YETONG / ASLAN</a>
+      <SiteNav current="works" worksHref="/works/" />
+      <a class="category-gallery__back" href="/works/games/">← GAMES</a>
+    </header>
+
+    <section class="category-gallery__intro" aria-labelledby="research-directory-title">
+      <p class="archive-kicker"><span>RESEARCH DIRECTORY</span> / {String(works.length).padStart(2, '0')} FILES</p>
+      <h1 id="research-directory-title">Game Research & Insights</h1>
+      <p>{category.intro}</p>
+    </section>
+
+    <section class="research-directory" aria-label="Game research directory">
+      <header class="research-directory__header">
+        <span>NO.</span><span>STUDY</span><span>METHOD / TYPE</span><span>YEAR</span>
+      </header>
+      {works.length > 0 ? works.map((work) => (
+        <a class="research-directory__row" href={`/works/${work.id}/`}>
+          <span>{String(work.data.order).padStart(2, '0')}</span>
+          <strong>{work.data.title}</strong>
+          <span>{work.data.type}</span>
+          <span>{work.data.year} ↗</span>
+        </a>
+      )) : (
+        <p class="research-directory__empty"><span>00</span><strong>NO STUDIES INDEXED YET</strong><span>Verified research entries will appear here.</span></p>
+      )}
+    </section>
+
+    <footer class="project-footer"><a href="/works/games/">← RETURN TO GAMES</a></footer>
+  </main>
+</BaseLayout>

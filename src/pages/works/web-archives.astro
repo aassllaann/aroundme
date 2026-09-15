@@ -1,0 +1,11 @@
+---
+import { getCollection } from 'astro:content';
+import WorkCategoryGallery from '../../components/works/WorkCategoryGallery.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/archive-b.css';
+
+const category = { id: 'web-archives', label: 'Web & Archives', contentCategory: 'Archive·Web', intro: 'This former category remains available as a compatibility route.' };
+const works = (await getCollection('works')).filter((work) => work.data.categories.includes(category.contentCategory)).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Web & Archives — Aslan Li" page="works"><WorkCategoryGallery {category} {works} /></BaseLayout>

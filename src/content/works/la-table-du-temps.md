@@ -8,8 +8,8 @@ featured: true
 summary: A cultural data interface that follows French cuisine through time, dishes, imagery, and evolving historical relationships.
 preview:
   type: image
-  src: images/works/la-table-du-temps/preview.svg
-  alt: Designed placeholder for La Table du Temps; interface imagery pending
+  src: images/works/la-table-du-temps/thumbnail-illustration.png
+  alt: Hand-drawn illustration of hands arranging a plated dish with herbs, citrus, and time-like arcs
 ---
 
 ## A table across time

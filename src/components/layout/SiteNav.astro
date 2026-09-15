@@ -1,19 +1,22 @@
 ---
 interface Props {
-  current: 'index' | 'works' | 'about';
+  current: 'index' | 'works' | 'sketchbook' | 'about';
   worksHref?: string;
+  showIndex?: boolean;
 }
 
-const { current, worksHref = '/works' } = Astro.props;
+const { current, worksHref = '/works', showIndex = true } = Astro.props;
 const links = [
   { id: 'index', label: 'INDEX', href: '/' },
   { id: 'works', label: 'WORKS', href: worksHref },
+  { id: 'sketchbook', label: 'SKETCHBOOK', href: '/sketchbook/' },
   { id: 'about', label: 'ABOUT', href: '/about' },
-] as const;
+] as const satisfies ReadonlyArray<{ id: Props['current']; label: string; href: string }>;
+const visibleLinks = showIndex ? links : links.filter((link) => link.id !== 'index');
 ---
 
 <nav class="site-nav" aria-label="Primary navigation">
-  {links.map((link) => {
+  {visibleLinks.map((link) => {
     const active = current === link.id;
     return (
       <a href={link.href} aria-current={active ? 'page' : undefined}>

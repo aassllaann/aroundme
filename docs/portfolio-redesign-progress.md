@@ -1,5 +1,68 @@
 # Portfolio redesign progress
 
+## 2026-09-13 — Editorial redesign / Stage 1 v0
+
+- Completed the reviewable static cover described in `docs/editorial-redesign-proposal-2026-09-13.md`.
+- Removed all project images, selected-work data, cards, project titles, image interactions, and the eye animation from the Home route. Project assets and records remain untouched.
+- Rebuilt Home as an image-free Ruigslay name composition with paper, ink, Cinnabar Red `#E5483B`, and Acid Yellow `#DDF000`; retained the verified email and GitHub links and added a direct `/works/` action.
+- Reused `SiteNav.astro` on Home, added the visible Sketchbook destination, and gave the Sketchbook route its own current-page state. Updated the shared preview route description.
+- Validation: `npm run check` passed with 0 diagnostics; `npm run build` produced 16 pages; `git diff --check` passed. Local browser inspection covered 320 × 568, 390 × 844, 768 × 1024, 1280 × 720, and 1440 × 900. No horizontal document overflow was detected at these widths, and the name, Works action, and contact footer remained reachable through normal scrolling.
+- This is the static v0 checkpoint. Full motion and the inner-page redesign remain pending visual approval. No deployment was performed.
+
+## 2026-09-13 — Editorial redesign / Stages 2–6
+
+- Extended the approved cover direction across the site while preserving the existing Works index, project records, Sketchbook modes, photography reader, and Unreliable Projector. Shared navigation now uses the same order and current-page treatment on Home, Works, Sketchbook, About, project pages, and the Projector; every primary page has a working skip link and one `main-content` landmark.
+- Reworked Works into a compact All-first index with persistent filters, URL state, counts, polite status updates, a load-safe desktop preview, and natural-ratio mobile cards. Added the small `npm run check:filters` regression check for All, Featured, a real category, invalid input, and empty results.
+- Corrected project evidence framing: summaries lead each project, illustration and placeholder captions remain factual, and interface captures are never implied where they are absent. Simplified About, separated its statement and practice list, and turned contact details into an acid-yellow action band.
+- Refined Sketchbook with inspected, factual descriptions for all 12 images, overview and one-at-a-time modes, bounded image fades, and a modal that moves focus inside and restores the opener on close. The photography reader retains its original page turn, uses a 1 ms reduced-motion setting, and only reveals enhanced controls after initialization so the unmodified page sequence remains the no-JavaScript fallback.
+- Added a restrained motion vocabulary: 480 ms cover-plane registration, 140 ms link responses, a cancellable 200 ms Works result transition, 180 ms Sketchbook fades, and a 220 ms Projector frame change with a 6 px maximum offset. The Projector heading line spacing was increased to keep a visible separation between its two lines.
+- Browser observations: Home, Works, About, I Ching Grand Strategy, Photography, Sketchbook, and Projector were inspected at 390 × 844 and 1440 × 900 with no horizontal document overflow. Home, Works, and the long-title I Ching page were also checked at 320 × 568, 768 × 1024, 1024 × 768, and 1280 × 720. Home contains zero work media; Works places its first mobile project at 601 px on the 390 px viewport and 587 px on the 320 px viewport.
+- Interaction observations: an invalid Works category returned to All and removed the invalid query; Photography filtering produced one result and kept focus on the filter. The photography reader advanced from page 01 to 02. Sketchbook changed from overview to file 02 in single mode, opened the modal, closed with Escape, removed closed-dialog controls from the accessibility tree, and restored focus to the image opener. Projector reel and frame controls changed the visible work, updated the live status, and kept focus on CHANGE FRAME after shuffling. No browser warnings or errors were recorded.
+- Verification: `npm run check` passed with 0 diagnostics; `npm run check:filters` passed; `npm run build` produced 16 pages; `git diff --check` passed; the built-site link and asset scan found 0 missing internal targets across 16 HTML files. Calculated contrast is 17.51:1 for ink on paper, 14.47:1 for ink on acid yellow, 5.45:1 for accessible red metadata on paper, and 4.51:1 for that metadata red on acid yellow; the brighter Cinnabar Red remains the large graphic color.
+- Remaining measurement limits: the browser harness did not provide a direct reduced-motion, JavaScript-disabled, or 200% browser-zoom toggle, so those paths were verified from implementation and effective narrow viewports rather than claimed as device-level simulations. LCP, CLS, and INP were not benchmarked. No deployment was performed.
+
+## 2026-09-13 — Section 12 category galleries and liquid cover
+
+- Replaced the Works filters, directory rows, counts, and linked preview with five normal category destinations. `/works/` is now a graphic category-entry page; each destination resolves to a reusable image-and-title gallery while every existing project detail URL remains unchanged.
+- Added `/works/ai-systems/` with the four existing AI Systems projects in their established order. The gallery uses three columns at 1440 px, two at 768 px, and one at 390 px and 320 px. Images use intrinsic dimensions and `height: auto`: the three 1672 × 941 thumbnails retain that source ratio, and the 4:3 visualization preview remains 4:3.
+- Added the same minimal usable gallery route for Web & Archives, Image Studies, Photography, and Moving Image so every category exposed on the entry page has a real destination. Project titles sit directly beneath their images; cards do not add descriptions, shadows, or a secondary preview.
+- Replaced Home's rigid color planes after enhancement initialization with local SVG contours. Pointer proximity deforms the nearest edge with viscous lag, then settles to the static red/yellow geometry. The effect uses one component-local animation loop and stops at rest, outside the viewport, or while the document is hidden.
+- Added a bounded tap response that ignores scroll gestures. The initially supplied keyboard ripple button was subsequently removed at the user's request. Name typography, navigation, contact links, and VIEW WORKS remain semantic HTML outside the decorative SVG. Reduced-motion and failed/no-JavaScript initialization retain the complete static cover.
+- Browser observations: desktop idle and deformed Home states were inspected at 1440 × 900; the SVG path changed during the keyboard ripple while document-positioned text and action geometry remained unchanged. Works and AI Systems were inspected at 1440, 768, 390, and 320 px with no horizontal overflow. Browser Back-compatible links and all five category routes were present, and no browser warning or error was recorded.
+- Verification: `npm run check`, `npm run check:portfolio`, `npm run build`, and `git diff --check` passed. The build produced 21 pages, and the built-site scan found 0 missing internal targets across all 21 HTML files. The scoped regression check covers category membership and liquid-path resting, distant-pointer, deformation, and finite-output behavior.
+- Measurement limits: the browser harness did not expose direct reduced-motion, JavaScript-disabled, touch-device, 200% zoom, or motion-recording controls. Those paths were reviewed in the implementation but are not claimed as device-level simulations. LCP, CLS, and INP were not benchmarked. No deployment was performed.
+
+## 2026-09-14 — Section 13 Games directory
+
+- Replaced the Works entry-page Image Studies tile with Games and added `/works/games/`. Its displayed count is derived from the two currently assigned works rather than from the three directory headings.
+- Added three always-visible groups: Game Projects, Character Design, and Game Research & Insights. I Ching Grand Strategy now belongs to Game Projects while retaining AI Systems; Pixel Monster Studies moved to Character Design. The research group honestly displays `00 FILES / NO FILES INDEXED` because no verified research project record is present.
+- Restored the useful directory-and-preview pattern only for Games. Desktop shows linked editorial rows beside a sticky, intrinsic-ratio preview; pointer hover and keyboard focus update its image, title, type, and year. Tablet and mobile remove the side preview and retain direct project links in a single vertical directory.
+- Preserved `/works/image-studies/` with Sacrificial Lamb Instruction Manual as a compatibility page. The project remains reachable and was not silently reclassified as a game.
+- Browser observations: Works displayed the Games tile with `02` projects. At 1440 px, Games showed the directory/preview split and keyboard focus changed the preview from I Ching Grand Strategy to Pixel Monster Studies. At 768, 390, and 320 px, the preview was removed, all three groups and both project links remained visible, long titles wrapped, and no horizontal overflow occurred. Entering I Ching Grand Strategy and using Browser Back returned normally to `/works/games/`. No browser warnings or errors were recorded.
+- Verification: `npm run check` passed with 0 diagnostics; `npm run check:portfolio` passed its Games membership and multi-category assertions; `npm run build` produced 22 pages; `git diff --check` passed; the built-site scan found 0 missing internal targets across all 22 HTML files.
+- Remaining content dependency: a real Game Research & Insights record still requires its verified title, year, summary, and preview material. No deployment was performed.
+
+## 2026-09-14 — Games directory-to-gallery refinement
+
+- Changed Games from a project-row/side-preview page into the requested two-stage browse flow. `/works/games/` now presents three numbered directory links; each opens its own image-and-title gallery.
+- `/works/games/game-projects/` contains only I Ching Grand Strategy. `/works/games/character-design/` contains only Pixel Monster Studies. `/works/games/game-research-insights/` resolves to an honest empty gallery. All three galleries return to Games before the visitor returns to Works.
+- Swapped the top-level category colors: Games now uses Cinnabar Red `#E5483B`, while Web & Archives uses paper `#FDF9F2`.
+- Browser observations: the Games directory showed counts `01`, `01`, and `00`; each route displayed the correct project or empty state and a `/works/games/` back link. The directory introduced no horizontal overflow at desktop or 390 px. No browser warnings or errors were recorded.
+- Verification: `npm run check`, `npm run check:portfolio`, `npm run build`, and `git diff --check` passed. The build produced 25 pages, and the built-site scan found 0 missing internal targets across all 25 HTML files. No deployment was performed.
+
+## 2026-09-14 — Game Research directory refinement
+
+- Replaced the empty Game Research & Insights gallery with a dedicated research-directory page. Its structure reserves number, study, method/type, and year columns for verified future records and uses direct canonical project links when records exist.
+- The current zero-record state remains factual: `00 / NO STUDIES INDEXED YET`. It does not create a thumbnail, placeholder study, invented date, or implied research result.
+- Browser observations: the full four-column directory header appeared at 1440 px; the 390 px layout reduced it to number, study, and year, kept the empty-state note readable, and introduced no horizontal overflow. No browser warnings or errors were recorded.
+
+## 2026-09-14 — Primary Works hierarchy
+
+- Reduced the public Works entry to AI Systems, UI/UX, Games, and Photography. Web & Archives is now labeled UI/UX and resolves through `/works/ui-ux/`; Moving Image no longer appears as a top-level tile.
+- Rebalanced the category field into the requested hierarchy: AI Systems uses Acid Yellow, UI/UX uses ink black with paper text, Games uses Cinnabar Red, and Photography uses paper white. The first three are the emphasized practices.
+- Preserved `/works/web-archives/`, `/works/moving-image/`, their project details, and their content records as compatibility archive routes.
+- Browser observations: the four-tile desktop composition and single-column 390 px composition matched the intended colors and introduced no horizontal overflow. UI/UX displayed La Table du Temps and Detective Archive Prototype. No browser warnings or errors were recorded.
+
 ## 本次更新：2026-09-06
 
 - 所处阶段：P0–P2。

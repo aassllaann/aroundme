@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import SiteNav from '../layout/SiteNav.astro';
 import PhotographyFlipbook from './PhotographyFlipbook.astro';
 
 interface Props {
@@ -19,36 +20,34 @@ const implementedPrototypeIds = new Set([
 ]);
 const hasImplementedPrototype = implementedPrototypeIds.has(work.id);
 const projectStatus = isPhotographyPortfolio
-  ? 'PORTFOLIO EDITION / 46 SPREADS'
+  ? 'PORTFOLIO EDITION / 91 PAGES'
   : hasImplementedPrototype
     ? 'WORKING PROTOTYPE / SCREEN CAPTURES PENDING'
     : 'MATERIALS BEING INDEXED';
 const previewCaption = isPhotographyPortfolio
-  ? 'PORTFOLIO EDITION — COVER SPREAD'
-  : hasImplementedPrototype
-    ? 'PROJECT PREVIEW — DESIGNED PLACEHOLDER / SCREEN CAPTURES PENDING'
+  ? 'PORTFOLIO EDITION — OPENING PAGE'
+  : hasImplementedPrototype && preview.type === 'image' && !preview.src.endsWith('.svg')
+    ? 'PROJECT ILLUSTRATION / INTERFACE CAPTURES PENDING'
+    : hasImplementedPrototype
+      ? 'PROJECT PREVIEW / INTERFACE CAPTURES PENDING'
     : 'PROJECT PREVIEW — MATERIALS BEING INDEXED';
 ---
 
-<main class="project-page">
+<main id="main-content" class="project-page">
   <header class="project-header">
+    <a class="archive-home-link" href="/">LI YETONG / ASLAN</a>
+    <SiteNav current="works" />
     <a href="/works/" class="project-back">← WORKS INDEX</a>
-    <p>FILE / {String(work.data.order).padStart(2, '0')}</p>
-    <p>{work.data.year}</p>
   </header>
 
   <section class="project-hero" aria-labelledby="project-title">
-    <p class="archive-kicker"><span>{String(work.data.order).padStart(2, '0')}</span> PROJECT FILE</p>
+    <p class="archive-kicker"><span>FILE / {String(work.data.order).padStart(2, '0')}</span> {work.data.year} · {work.data.type}</p>
     <h1 id="project-title">{work.data.title}</h1>
-    {isPhotographyPortfolio && <p class="project-hero__summary">{work.data.summary}</p>}
+    <p class="project-hero__summary">{work.data.summary}</p>
   </section>
 
   {!isPhotographyPortfolio && (
     <section class="project-media" aria-label={`${work.data.title} preview`}>
-      <div class="project-media__intro">
-        <p class="project-media__label">PROJECT INTRODUCTION</p>
-        <p class="project-summary">{work.data.summary}</p>
-      </div>
       <figure class="project-media__figure">
         {preview.type === 'image' ? (
           <img src={assetUrl(preview.src)} alt={preview.alt} />

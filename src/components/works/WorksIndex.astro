@@ -1,249 +1,40 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import SiteNav from '../layout/SiteNav.astro';
+import { workCategories, worksInCategory } from '../../data/work-categories.js';
 
 interface Props {
   works: CollectionEntry<'works'>[];
-  embedded?: boolean;
 }
 
-const { works, embedded = false } = Astro.props;
-const categories = [
-  'Featured',
-  'AI·Systems',
-  'Archive·Web',
-  'Image Studies',
-  'Photography',
-  'Moving Image',
-  'Sketchbook',
-];
-const initialWorks = works.filter((work) => work.data.featured);
-const initialWork = initialWorks[0] ?? works[0];
-
-const assetUrl = (src: string) => `/${src}`;
-const categoryList = (work: CollectionEntry<'works'>) => work.data.categories.join(' · ');
-const workHref = (work: CollectionEntry<'works'>) => `/works/${work.id}/`;
-const categoryCount = (category: string) => works.filter((work) => (
-  category === 'Featured' ? work.data.featured : work.data.categories.includes(category)
-)).length;
+const { works } = Astro.props;
 ---
 
-<section id={embedded ? 'works' : undefined} class:list={{ 'works-page': true, 'works-page--embedded': embedded }} aria-label={embedded ? 'Works' : undefined}>
-  {!embedded && (
-    <header class="works-header">
-      <p class="edition-mark">ARCHIVE / 02</p>
-      <slot name="navigation" />
-      <p class="edition-mark edition-mark--right">SELECTED FILES / {String(initialWorks.length).padStart(2, '0')}</p>
-    </header>
-  )}
+<main id="main-content" class="works-page works-landing">
+  <header class="works-header">
+    <a class="archive-home-link" href="/">LI YETONG / ASLAN</a>
+    <SiteNav current="works" />
+    <p class="edition-mark edition-mark--right">{String(works.length).padStart(2, '0')} PROJECTS</p>
+  </header>
 
   <section class="works-intro" aria-labelledby="works-title">
-    <p class="archive-kicker"><span>02</span> SELECTED WORKS / INDEX</p>
+    <p class="archive-kicker"><span>WORKS</span> SYSTEMS / IMAGES / STORIES</p>
     <h1 id="works-title">WORKS</h1>
-    <p>A working index of systems, cases, image studies, and moving fragments.<br /><a class="works-projector-link" href="/lab/projector/">OPEN THE UNRELIABLE PROJECTOR ↗</a></p>
+    <p>Choose a field, then enter the work.<br /><a class="works-projector-link" href="/lab/projector/">OPEN THE UNRELIABLE PROJECTOR ↗</a></p>
   </section>
 
-  <section class="works-taxonomy" aria-label="Works categories" data-category-index>
-    <p class="works-taxonomy__note">BROWSE BY FILE GROUP</p>
-    <div class="works-category-list">
-      {categories.map((category, index) => (
-        <button type="button" class:list={{ 'works-category': true, 'is-active': category === 'Featured' }} data-work-filter={category} aria-pressed={category === 'Featured' ? 'true' : 'false'}>
-          <span class="works-category__marker" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-          <span class="works-category__name">{category}</span>
-          <span class="works-category__count">{category === 'Sketchbook' ? 'OPEN' : String(categoryCount(category)).padStart(2, '0')}</span>
-        </button>
-      ))}
-    </div>
-  </section>
-
-  <section class="works-results" aria-live="polite" data-work-results>
-    <header class="works-results__header">
-      <button type="button" class="works-results__back" data-category-reset>← SHOW ALL WORKS</button>
-      <p data-category-title>FEATURED</p>
-      <p data-category-count>{String(initialWorks.length).padStart(2, '0')} FILES</p>
-    </header>
-
-    <section class="works-desk" aria-label="Works index">
-    <div class="work-list">
-      {works.map((work) => {
-        const preview = work.data.preview;
-        return (
-          <a
-            href={workHref(work)}
-            class:list={{ 'work-row': true, 'is-active': work.id === initialWork?.id }}
-            hidden={!work.data.featured}
-            data-work-row
-            data-categories={work.data.categories.join('|')}
-            data-featured={String(work.data.featured)}
-            data-preview-type={preview.type}
-            data-preview-src={assetUrl(preview.src)}
-            data-preview-poster={preview.type === 'video' ? assetUrl(preview.poster) : undefined}
-            data-preview-alt={preview.alt}
-            data-work-order={String(work.data.order).padStart(2, '0')}
-            data-work-title={work.data.title}
-            data-work-type={work.data.type}
-            data-work-year={work.data.year}
-          >
-            <span class="work-row__number">{String(work.data.order).padStart(2, '0')}</span>
-            <span class="work-row__title">{work.data.title}</span>
-            <span class="work-row__meta">{categoryList(work)}</span>
-            <span class="work-row__year">{work.data.year}</span>
-          </a>
-        );
-      })}
-    </div>
-
-    <aside class="work-preview" aria-live="polite">
-      {initialWork ? (
-        <>
-          <div class="work-preview__media">
-            <img data-preview-image src={assetUrl(initialWork.data.preview.src)} alt={initialWork.data.preview.alt} />
-            <video data-preview-video muted loop playsinline hidden></video>
-          </div>
-          <div class="work-preview__caption">
-            <p data-preview-order>{String(initialWork.data.order).padStart(2, '0')}</p>
-            <div>
-              <h2 data-preview-title>{initialWork.data.title}</h2>
-              <p data-preview-type-label>{initialWork.data.type}</p>
-            </div>
-            <p data-preview-year>{initialWork.data.year}</p>
-          </div>
-        </>
-      ) : <p class="works-empty">NO FILES INDEXED YET.</p>}
-    </aside>
-    </section>
-
-    <section class="works-mobile" aria-label="Works index">
-    {works.length === 0 && <p class="works-empty">NO FILES INDEXED YET.</p>}
-    {works.map((work) => {
-      const preview = work.data.preview;
+  <nav class="works-category-index" aria-label="Work collections">
+    {workCategories.map((category, index) => {
+      const count = worksInCategory(works, category).length;
       return (
-        <details class="work-card" data-work-card data-categories={work.data.categories.join('|')} data-featured={String(work.data.featured)} hidden={!work.data.featured}>
-          <summary>
-            {preview.type === 'image' ? (
-              <img src={assetUrl(preview.src)} alt={preview.alt} loading="lazy" />
-            ) : (
-              <img src={assetUrl(preview.poster)} alt={preview.alt} loading="lazy" />
-            )}
-            <span class="work-card__summary">
-              <span class="work-card__number">{String(work.data.order).padStart(2, '0')}</span>
-              <span class="work-card__title">{work.data.title}</span>
-              <span class="work-card__year">{work.data.year}</span>
-            </span>
-          </summary>
-          <div class="work-card__detail">
-            <p>{work.data.summary}</p>
-            <p class="work-card__tags">{categoryList(work)} / {work.data.type}</p>
-            <a href={workHref(work)} class="work-card__open">OPEN FILE ↗</a>
-          </div>
-        </details>
+        <a class={`works-category-tile works-category-tile--${index + 1}`} href={`/works/${category.id}/`}>
+          <span class="works-category-tile__meta">{String(index + 1).padStart(2, '0')} / {String(count).padStart(2, '0')}</span>
+          <span class="works-category-tile__title">{category.label}</span>
+          <span class="works-category-tile__arrow" aria-hidden="true">↗</span>
+        </a>
       );
     })}
-    </section>
-  </section>
-</section>
+  </nav>
 
-<script>
-  const rows = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-work-row]'));
-  const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-work-card]'));
-  const filters = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-work-filter]'));
-  const categoryIndex = document.querySelector<HTMLElement>('[data-category-index]');
-  const results = document.querySelector<HTMLElement>('[data-work-results]');
-  const resetButton = document.querySelector<HTMLButtonElement>('[data-category-reset]');
-  const categoryTitle = document.querySelector<HTMLElement>('[data-category-title]');
-  const categoryCount = document.querySelector<HTMLElement>('[data-category-count]');
-  const previewImage = document.querySelector<HTMLImageElement>('[data-preview-image]');
-  const previewVideo = document.querySelector<HTMLVideoElement>('[data-preview-video]');
-  const previewOrder = document.querySelector<HTMLElement>('[data-preview-order]');
-  const previewTitle = document.querySelector<HTMLElement>('[data-preview-title]');
-  const previewType = document.querySelector<HTMLElement>('[data-preview-type-label]');
-  const previewYear = document.querySelector<HTMLElement>('[data-preview-year]');
-
-  function setPreview(row: HTMLAnchorElement) {
-    if (!previewImage || !previewVideo || !previewOrder || !previewTitle || !previewType || !previewYear) return;
-
-    rows.forEach((item) => item.classList.toggle('is-active', item === row));
-    previewOrder.textContent = row.dataset.workOrder ?? '';
-    previewTitle.textContent = row.dataset.workTitle ?? '';
-    previewType.textContent = row.dataset.workType ?? '';
-    previewYear.textContent = row.dataset.workYear ?? '';
-
-    if (row.dataset.previewType === 'video') {
-      previewImage.hidden = true;
-      previewVideo.hidden = false;
-      previewVideo.poster = row.dataset.previewPoster ?? '';
-      previewVideo.src = row.dataset.previewSrc ?? '';
-      void previewVideo.play().catch(() => undefined);
-    } else {
-      previewVideo.pause();
-      previewVideo.removeAttribute('src');
-      previewVideo.load();
-      previewVideo.hidden = true;
-      previewImage.hidden = false;
-      previewImage.src = row.dataset.previewSrc ?? '';
-      previewImage.alt = row.dataset.previewAlt ?? '';
-    }
-  }
-
-  rows.forEach((row) => {
-    row.addEventListener('pointerenter', () => setPreview(row));
-    row.addEventListener('focus', () => setPreview(row));
-    row.addEventListener('click', () => setPreview(row));
-  });
-
-  function selectCategory(selected: string, focusResult = false) {
-      if (selected === 'Sketchbook') {
-        window.location.assign('/sketchbook/');
-        return;
-      }
-      if (!categoryIndex || !results) return;
-      filters.forEach((item) => {
-        const active = item.dataset.workFilter === selected;
-        item.classList.toggle('is-active', active);
-        item.setAttribute('aria-pressed', String(active));
-      });
-
-      const matches = (element: HTMLElement) => selected === 'Featured'
-        ? element.dataset.featured === 'true'
-        : (element.dataset.categories ?? '').split('|').includes(selected);
-      rows.forEach((row) => { row.hidden = !matches(row); });
-      cards.forEach((card) => { card.hidden = !matches(card); });
-      const nextActive = rows.find((row) => !row.hidden);
-      if (nextActive) setPreview(nextActive);
-
-      categoryTitle && (categoryTitle.textContent = selected.toUpperCase());
-      categoryCount && (categoryCount.textContent = `${String(rows.filter((row) => !row.hidden).length).padStart(2, '0')} FILES`);
-      if (resetButton) resetButton.textContent = '← SHOW ALL WORKS';
-      categoryIndex.hidden = true;
-      results.hidden = false;
-      history.replaceState(null, '', `${window.location.pathname}?category=${encodeURIComponent(selected)}`);
-      if (focusResult) resetButton?.focus();
-  }
-
-  function showAllWorks() {
-    if (!categoryIndex || !results) return;
-    rows.forEach((row) => { row.hidden = false; });
-    cards.forEach((card) => { card.hidden = false; });
-    filters.forEach((item) => { item.classList.remove('is-active'); item.setAttribute('aria-pressed', 'false'); });
-    categoryIndex.hidden = false;
-    categoryTitle && (categoryTitle.textContent = 'ALL WORKS');
-    categoryCount && (categoryCount.textContent = `${String(rows.length).padStart(2, '0')} FILES`);
-    if (resetButton) resetButton.textContent = '← SHOW FEATURED WORKS';
-    const nextActive = rows.find((row) => !row.hidden);
-    if (nextActive) setPreview(nextActive);
-    history.replaceState(null, '', window.location.pathname);
-  }
-
-  filters.forEach((filter) => {
-    filter.addEventListener('click', () => selectCategory(filter.dataset.workFilter ?? 'Featured', true));
-  });
-
-  resetButton?.addEventListener('click', () => {
-    if (categoryTitle?.textContent === 'ALL WORKS') selectCategory('Featured', true);
-    else showAllWorks();
-  });
-
-  const requestedCategory = new URLSearchParams(window.location.search).get('category');
-  if (requestedCategory && filters.some((filter) => filter.dataset.workFilter === requestedCategory)) {
-    selectCategory(requestedCategory);
-  }
-</script>
+  <footer class="works-landing__footer"><a href="/sketchbook/">OPEN SKETCHBOOK ↗</a></footer>
+</main>

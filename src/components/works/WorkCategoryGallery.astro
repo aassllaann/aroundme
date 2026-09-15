@@ -1,0 +1,54 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import SiteNav from '../layout/SiteNav.astro';
+import { previewDimensions } from '../../data/work-categories.js';
+
+interface Props {
+  category: { id: string; label: string; intro: string };
+  works: CollectionEntry<'works'>[];
+  backHref?: string;
+  backLabel?: string;
+}
+
+const { category, works, backHref = '/works/', backLabel = 'WORKS' } = Astro.props;
+const assetUrl = (src: string) => `/${src}`;
+const workHref = (work: CollectionEntry<'works'>) => `/works/${work.id}/`;
+const galleryItems = works.map((work) => {
+  const mediaSrc = work.data.preview.type === 'image' ? work.data.preview.src : work.data.preview.poster;
+  const [width, height] = previewDimensions[mediaSrc as keyof typeof previewDimensions] ?? [1200, 900];
+  return { work, mediaSrc, width, height };
+});
+---
+
+<main id="main-content" class="works-page category-gallery-page">
+  <header class="works-header">
+    <a class="archive-home-link" href="/">LI YETONG / ASLAN</a>
+    <SiteNav current="works" worksHref="/works/" />
+    <a class="category-gallery__back" href={backHref}>← {backLabel}</a>
+  </header>
+
+  <section class="category-gallery__intro" aria-labelledby="category-title">
+    <p class="archive-kicker"><span>COLLECTION</span> {String(works.length).padStart(2, '0')} PROJECTS</p>
+    <h1 id="category-title">{category.label}</h1>
+    <p>{category.intro}</p>
+  </section>
+
+  {works.length > 0 ? (
+    <section class="category-gallery__grid" aria-label={`${category.label} projects`}>
+      {galleryItems.map(({ work, mediaSrc, width, height }, index) => (
+          <a class="category-project" href={workHref(work)}>
+            <span class="category-project__image">
+              <img src={assetUrl(mediaSrc)} alt={work.data.preview.alt} width={width} height={height} loading={index < 3 ? 'eager' : 'lazy'} />
+            </span>
+            <span class="category-project__title">
+              <span>{work.data.title}</span><span aria-hidden="true">↗</span>
+            </span>
+          </a>
+      ))}
+    </section>
+  ) : (
+    <p class="category-gallery__empty">NO PROJECTS INDEXED IN THIS COLLECTION.</p>
+  )}
+
+  <footer class="project-footer"><a href={backHref}>← RETURN TO {backLabel}</a></footer>
+</main>

@@ -7,22 +7,36 @@ import '../styles/sketchbook-browser.css';
 
 const imageExtension = /\.(avif|gif|jpe?g|png|svg|webp)$/i;
 const sketchbookDirectory = `${process.cwd()}/public/images/works/sketchbook`;
+const imageDescriptions: Record<string, string> = {
+  'FREE_saywhateverI_2.jpg': 'Watercolor sketchbook spread with a horse-like figure, a grey figure with large eyes, and handwritten text.',
+  'FREE_saywhateverI_4.jpg': 'Sketchbook spread with orange Choose Life lettering, a blue pool-like shape, and handwritten notes.',
+  'FREE_saywhateverI_5.jpg': 'Black sketchbook spread with green and red figures kissing and orange handwritten text.',
+  'FREE_saywhateverI_7.jpg': 'Red sketchbook spread with a large painted blue eye and orange handwritten text.',
+  'FREE_saywhateverI_8.jpg': 'Black sketchbook spread with repeated green lettering and loosely drawn figures.',
+  'IMG_4772.JPG': 'Pale blue and yellow sketchbook spread with stylized airplanes, a window view, and handwritten Chinese notes.',
+  'retouch_2025120817385656.jpg': 'Purple-bordered sketchbook spread with pink and purple painted forms and bilingual handwriting.',
+  'retouch_2025120817401618.jpg': 'Pink-bordered sketchbook spread with a purple horse, translucent flowers, and scattered words.',
+  'retouch_2025121214130179.jpg': 'Deep blue sketchbook spread with painted figures, a chair, an eye, and Chinese characters.',
+  'retouch_2025121214150612.jpg': 'Cyan-bordered sketchbook spread with a large blue oval form and handwritten text.',
+  '□HH.jpg': 'Black sketchbook spread with a bright yellow bird-like form, a blue wing, a red heart, and a green hand.',
+  'はa心王_noshu.jpg': 'Pale sketchbook spread with a blue-green oval form and handwritten text about being in the ocean.',
+};
 const images = existsSync(sketchbookDirectory)
   ? readdirSync(sketchbookDirectory)
       .filter((filename: string) => imageExtension.test(filename))
       .sort((a: string, b: string) => a.localeCompare(b, undefined, { numeric: true }))
       .map((filename: string) => ({
         src: `/images/works/sketchbook/${encodeURIComponent(filename)}`,
-        alt: filename.replace(imageExtension, '').replaceAll(/[-_]/g, ' '),
+        alt: imageDescriptions[filename] ?? filename.replace(imageExtension, '').replaceAll(/[-_]/g, ' '),
       }))
   : [];
 ---
 
 <BaseLayout title="Sketchbook — Li Yetong" page="works">
-  <main class="sketchbook-page">
+  <main id="main-content" class="sketchbook-page">
     <header class="works-header">
-      <p class="edition-mark">ARCHIVE / 03</p>
-      <SiteNav current="works" />
+      <a class="archive-home-link" href="/">LI YETONG / ASLAN</a>
+      <SiteNav current="sketchbook" />
       <p class="edition-mark edition-mark--right">IMAGE NOTES / {String(images.length).padStart(2, '0')}</p>
     </header>
 
@@ -70,7 +84,7 @@ const images = existsSync(sketchbookDirectory)
     <footer class="project-footer"><a href="/works/">← RETURN TO WORKS INDEX</a></footer>
   </main>
 
-  <dialog class="sketchbook-lightbox" data-sketchbook-lightbox aria-label="Expanded sketchbook image">
+  <dialog class="sketchbook-lightbox" data-sketchbook-lightbox aria-label="Expanded sketchbook image" inert>
     <button type="button" class="sketchbook-lightbox__close" data-sketchbook-close aria-label="Close expanded image">×</button>
     <button type="button" class="sketchbook-lightbox__previous" data-sketchbook-previous aria-label="Previous image">←</button>
     <figure class="sketchbook-lightbox__frame">
@@ -82,6 +96,7 @@ const images = existsSync(sketchbookDirectory)
 </BaseLayout>
 
 <script>
+  document.documentElement.classList.add('has-js');
   const galleryImages = Array.from(document.querySelectorAll<HTMLImageElement>('[data-sketchbook-open] img'));
   const openButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-sketchbook-open]'));
   const lightbox = document.querySelector<HTMLDialogElement>('[data-sketchbook-lightbox]');
@@ -103,14 +118,19 @@ const images = existsSync(sketchbookDirectory)
   let activeView: 'overview' | 'single' = 'overview';
   let swipeStartX = 0;
   let triggeringButton: HTMLButtonElement | undefined;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function setActiveIndex(index: number) {
     if (galleryImages.length === 0) return;
+    const previousIndex = activeIndex;
     activeIndex = Math.max(0, Math.min(index, galleryImages.length - 1));
     const image = galleryImages[activeIndex];
     if (singleImage) {
       singleImage.src = image.currentSrc || image.src;
       singleImage.alt = image.alt;
+      if (!reduceMotion && activeIndex !== previousIndex) {
+        singleImage.animate([{ opacity: .6 }, { opacity: 1 }], { duration: 180, easing: 'cubic-bezier(.2, 0, 0, 1)' });
+      }
     }
     if (singleCounter) singleCounter.textContent = `FILE / ${String(activeIndex + 1).padStart(2, '0')} OF ${String(galleryImages.length).padStart(2, '0')}`;
     if (singleOpenButton) singleOpenButton.setAttribute('aria-label', `Open image ${activeIndex + 1} of ${galleryImages.length}`);
@@ -133,6 +153,7 @@ const images = existsSync(sketchbookDirectory)
     if (!lightbox) return;
     triggeringButton = trigger ?? openButtons[index];
     showImage(index);
+    lightbox.inert = false;
     if (!lightbox.open) lightbox.showModal();
     closeButton?.focus();
   }
@@ -179,6 +200,7 @@ const images = existsSync(sketchbookDirectory)
     if (event.target === lightbox) closeLightbox();
   });
   lightbox?.addEventListener('close', () => {
+    lightbox.inert = true;
     triggeringButton?.focus();
     triggeringButton = undefined;
   });

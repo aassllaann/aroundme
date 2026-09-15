@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import GameDirectory from '../../components/works/GameDirectory.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getWorkCategory } from '../../data/work-categories.js';
+import '../../styles/archive-b.css';
+
+const category = getWorkCategory('games');
+const works = (await getCollection('works'))
+  .filter((work) => category.contentCategories?.some((item) => work.data.categories.includes(item)))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Games — Aslan Li" page="works"><GameDirectory {works} /></BaseLayout>

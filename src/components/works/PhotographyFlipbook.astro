@@ -1,5 +1,5 @@
 ---
-const spreads = Array.from({ length: 46 }, (_, index) => {
+const pages = Array.from({ length: 91 }, (_, index) => {
   const page = String(index + 1).padStart(2, '0');
   return {
     number: page,
@@ -11,10 +11,10 @@ const spreads = Array.from({ length: 46 }, (_, index) => {
 <section class="photobook" aria-labelledby="photobook-title" data-photobook tabindex="0">
   <header class="photobook__header">
     <div>
-      <p class="photobook__label">PORTFOLIO EDITION / 46 SPREADS</p>
+      <p class="photobook__label">PORTFOLIO EDITION / 91 PAGES</p>
       <h2 id="photobook-title">READING MODE</h2>
     </div>
-    <p class="photobook__counter" data-photobook-counter>01 / 49</p>
+    <p class="photobook__counter" data-photobook-counter>01 / 94</p>
   </header>
 
   <div class="photobook__stage" data-photobook-stage>
@@ -23,9 +23,9 @@ const spreads = Array.from({ length: 46 }, (_, index) => {
         <img src="/images/works/photography-notes/book/cover-spread.png" alt="Photography portfolio cover, 2023–2026" />
       </article>
       <article class="photobook__page photobook__page--black" aria-hidden="true"></article>
-      {spreads.map((spread) => (
+      {pages.map((page) => (
         <article class="photobook__page">
-          <img src={spread.src} alt={`Photography portfolio spread ${spread.number}`} />
+          <img src={page.src} alt={`Photography portfolio page ${page.number}`} />
         </article>
       ))}
       <article class="photobook__page" data-density="hard">
@@ -52,6 +52,7 @@ const spreads = Array.from({ length: 46 }, (_, index) => {
   const counter = book?.querySelector<HTMLElement>('[data-photobook-counter]');
 
   if (book && stage && pages && previous && next && counter) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const pageFlip = new PageFlip(stage, {
       width: 900,
       height: 642,
@@ -62,7 +63,7 @@ const spreads = Array.from({ length: 46 }, (_, index) => {
       maxHeight: 700,
       drawShadow: true,
       maxShadowOpacity: 0.28,
-      flippingTime: 780,
+      flippingTime: reduceMotion ? 1 : 780,
       usePortrait: true,
       showCover: true,
       mobileScrollSupport: false,
@@ -72,6 +73,7 @@ const spreads = Array.from({ length: 46 }, (_, index) => {
 
     const pageElements = Array.from(pages.querySelectorAll<HTMLElement>('.photobook__page'));
     pageFlip.loadFromHTML(pageElements);
+    book.classList.add('is-enhanced');
 
     function updateControls(pageIndex: number) {
       const total = pageFlip.getPageCount();

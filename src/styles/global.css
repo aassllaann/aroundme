@@ -21,6 +21,9 @@ body {
 
 a { color: inherit; }
 
+.skip-link { position: fixed; z-index: 100; top: .5rem; left: .5rem; padding: .75rem 1rem; background: #171318; color: #fdf9f2; font: 500 .875rem/1.2 'IBM Plex Sans', sans-serif; transform: translateY(-160%); }
+.skip-link:focus { transform: translateY(0); }
+
 .archive-home {
   display: grid;
   grid-template-rows: auto 1fr auto;
@@ -347,4 +350,12 @@ a { color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+}
+
+/* Reader controls are progressive enhancement; the unmodified page stack is the fallback. */
+.photobook__controls { display: none; }
+.photobook.is-enhanced .photobook__controls { display: flex; }
+
+@media (max-width: 767px) {
+  .photobook.is-enhanced .photobook__controls { display: grid; }
 }

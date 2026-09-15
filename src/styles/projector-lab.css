@@ -2,6 +2,7 @@
   --projector-paper: #fdf9f2;
   --projector-ink: #171318;
   --projector-red: #e5483b;
+  --projector-red-text: #bd332a;
   --projector-acid: #ddf000;
   min-height: 100svh;
   background: var(--projector-paper);
@@ -27,13 +28,22 @@
 .projector-header p,
 .projector-machine__bar p,
 .projector-footer p { margin: 0; }
+.projector-header { align-items: center; min-height: 4.5rem; padding-block: .75rem; font-family: 'IBM Plex Sans', sans-serif; font-size: clamp(.75rem, .82vw, .875rem); letter-spacing: .02em; }
+.projector-header .archive-home-link { color: inherit; font: inherit; text-decoration: none; }
+.projector-header .site-nav { gap: clamp(1.25rem, 2.4vw, 2.75rem); font: inherit; }
+.projector-header .site-nav span { display: none; }
+.projector-header .site-nav a { display: grid; min-height: 2.75rem; place-items: center; border-bottom: 2px solid transparent; text-decoration: none; transition: border-color .14s cubic-bezier(.2, 0, 0, 1); }
+.projector-header .site-nav a:hover,
+.projector-header .site-nav a:focus-visible,
+.projector-header .site-nav a[aria-current='page'] { border-bottom-color: currentColor; }
+.projector-header :is(a, button):focus-visible { outline: 2px solid var(--projector-paper); box-shadow: 0 0 0 4px var(--projector-ink); }
 .projector-index-link { justify-self: end; color: inherit; text-decoration: none; }
-.projector-index-link:hover, .projector-index-link:focus-visible { color: var(--projector-red); text-decoration: underline; text-underline-offset: .25em; }
+.projector-index-link:hover, .projector-index-link:focus-visible { color: var(--projector-red-text); text-decoration: underline; text-underline-offset: .25em; }
 
 .projector-intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(14rem, .38fr); gap: var(--space-3); align-items: end; max-width: 100rem; margin: 0 auto; padding: clamp(var(--space-4), 6vw, var(--space-6)) clamp(var(--space-2), 4vw, var(--space-5)) clamp(var(--space-3), 4vw, var(--space-4)); }
 .projector-kicker { grid-column: 1 / -1; margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: .7rem; letter-spacing: .04em; }
-.projector-kicker span { color: var(--projector-red); }
-.projector-intro h1 { margin: 0; font-family: 'Archivo Narrow', Impact, sans-serif; font-size: clamp(4rem, 8.8vw, 9rem); font-weight: 700; letter-spacing: -.075em; line-height: .68; }
+.projector-kicker span { color: var(--projector-red-text); }
+.projector-intro h1 { margin: 0; font-family: 'Archivo Narrow', Impact, sans-serif; font-size: clamp(4rem, 8.8vw, 9rem); font-weight: 700; letter-spacing: -.055em; line-height: .9; }
 .projector-intro > p:last-child { max-width: 19rem; margin: 0; font-size: clamp(1rem, 1.35vw, 1.25rem); line-height: 1.4; }
 
 .projector-machine { max-width: 100rem; margin: 0 auto; padding: 0 clamp(var(--space-2), 4vw, var(--space-5)) clamp(var(--space-5), 8vw, 8rem); }
@@ -42,17 +52,17 @@
 .projector-mode, .projector-shuffle, .projector-frame { border: 0; background: transparent; color: inherit; cursor: pointer; font: inherit; letter-spacing: inherit; }
 .projector-mode, .projector-shuffle { min-height: 2.75rem; }
 .projector-mode { padding: .2rem .5rem; }
-.projector-mode span { margin-right: .35rem; color: var(--projector-red); }
+.projector-mode span { margin-right: .35rem; color: var(--projector-red-text); }
 .projector-mode:hover, .projector-mode.is-active { background: var(--projector-acid); }
 .projector-mode:focus-visible { outline: 3px solid var(--projector-red); outline-offset: 2px; }
 .projector-shuffle { justify-self: end; padding: .2rem 0; text-align: right; }
-.projector-shuffle:hover { color: var(--projector-red); text-decoration: underline; text-underline-offset: .25em; }
+.projector-shuffle:hover { color: var(--projector-red-text); text-decoration: underline; text-underline-offset: .25em; }
 .projector-shuffle:focus-visible { outline: 3px solid var(--projector-red); outline-offset: 3px; }
 
 .projector-stage { min-height: min(62vw, 45rem); padding: clamp(var(--space-2), 3vw, var(--space-4)); background: var(--projector-ink); }
 .projector-slide { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(14rem, .55fr); gap: clamp(var(--space-3), 5vw, var(--space-6)); height: 100%; min-height: clamp(22rem, 52vw, 37rem); align-items: end; color: var(--projector-paper); }
 .projector-slide[hidden], .projector-frame[hidden] { display: none !important; }
-.projector-slide:not([hidden]) { animation: projector-frame-change .16s ease-out; }
+.projector-slide:not([hidden]) { animation: projector-frame-change .22s cubic-bezier(.2, 0, 0, 1); }
 .projector-slide__image { align-self: stretch; min-height: 0; background: #050505; }
 .projector-slide__image img, .projector-slide__image video { display: block; width: 100%; height: 100%; object-fit: contain; }
 .projector-slide__caption { padding: var(--space-2) 0; }
@@ -64,7 +74,7 @@
 
 .projector-shelf { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-right: 1px solid color-mix(in srgb, var(--projector-ink) 22%, transparent); }
 .projector-frame { display: grid; min-height: 8rem; gap: .35rem; padding: var(--space-2); border-bottom: 1px solid color-mix(in srgb, var(--projector-ink) 22%, transparent); border-left: 1px solid color-mix(in srgb, var(--projector-ink) 22%, transparent); text-align: left; }
-.projector-frame span, .projector-frame small { color: var(--projector-red); font-family: 'IBM Plex Mono', monospace; font-size: .65rem; letter-spacing: .04em; }
+.projector-frame span, .projector-frame small { color: var(--projector-red-text); font-family: 'IBM Plex Mono', monospace; font-size: .65rem; letter-spacing: .04em; }
 .projector-frame strong { font-family: 'Archivo Narrow', sans-serif; font-size: clamp(1.4rem, 2vw, 2.1rem); font-weight: 600; letter-spacing: -.035em; line-height: .85; }
 .projector-frame:hover, .projector-frame.is-active { background: var(--projector-acid); }
 .projector-frame:focus-visible { outline: 3px solid var(--projector-red); outline-offset: -3px; }
@@ -72,10 +82,10 @@
 .projector-footer { border-top: 1px solid var(--projector-ink); border-bottom: 0; }
 .projector-footer p { grid-column: 2 / 3; text-align: center; }
 .projector-footer a { color: inherit; text-underline-offset: .25em; }
-.projector-footer a:hover, .projector-footer a:focus-visible { color: var(--projector-red); }
+.projector-footer a:hover, .projector-footer a:focus-visible { color: var(--projector-red-text); }
 
 @keyframes projector-frame-change {
-  from { opacity: .82; transform: translateY(.2rem); }
+  from { opacity: .78; transform: translateY(.375rem); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -83,7 +93,9 @@
 
 @media (max-width: 700px) {
   .projector-header { grid-template-columns: 1fr auto; gap: var(--space-2); }
-  .projector-header .site-nav { grid-row: 2; grid-column: 1 / -1; justify-content: flex-start; }
+  .projector-header { min-height: 8.5rem; align-content: center; }
+  .projector-header .site-nav { grid-row: 2; grid-column: 1 / -1; justify-content: space-between; }
+  .projector-header .site-nav a { min-height: 2.25rem; }
   .projector-intro { grid-template-columns: 1fr; gap: var(--space-3); }
   .projector-intro h1 { font-size: clamp(4.5rem, 22vw, 7rem); }
   .projector-machine__bar { grid-template-columns: 1fr; gap: var(--space-2); }

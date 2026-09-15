@@ -22,9 +22,9 @@ const assetUrl = (src: string) => `/${src}`;
 const workHref = (work: CollectionEntry<'works'>) => `/works/${work.id}/`;
 ---
 
-<main class="projector-page" data-projector>
+<main id="main-content" class="projector-page" data-projector>
   <header class="projector-header">
-    <p class="edition-mark">EXPERIMENT / 01</p>
+    <a class="archive-home-link" href="/">LI YETONG / ASLAN</a>
     <SiteNav current="works" worksHref="/works/" />
     <a class="projector-index-link" href="/works/">← STANDARD INDEX</a>
   </header>
@@ -62,7 +62,7 @@ const workHref = (work: CollectionEntry<'works'>) => `/works/${work.id}/`;
               {preview.type === 'image' ? (
                 <img src={assetUrl(preview.src)} alt={preview.alt} />
               ) : (
-                <video src={assetUrl(preview.src)} poster={assetUrl(preview.poster)} muted loop playsinline aria-label={preview.alt}></video>
+                <video src={assetUrl(preview.src)} poster={assetUrl(preview.poster)} controls muted playsinline aria-label={preview.alt}></video>
               )}
             </div>
             <div class="projector-slide__caption">
@@ -123,7 +123,7 @@ const workHref = (work: CollectionEntry<'works'>) => `/works/${work.id}/`;
       const active = slide.dataset.projectorWork === workId;
       slide.hidden = !active;
       const video = slide.querySelector<HTMLVideoElement>('video');
-      if (video) active ? void video.play().catch(() => undefined) : video.pause();
+      if (video && !active) video.pause();
     });
     const frameNumber = selectedFrame.querySelector('span')?.textContent?.trim() ?? '';
     const frameTitle = selectedFrame.querySelector('strong')?.textContent?.trim() ?? '';

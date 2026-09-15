@@ -1,0 +1,12 @@
+---
+import { getCollection } from 'astro:content';
+import WorkCategoryGallery from '../../../components/works/WorkCategoryGallery.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { gameDirectories } from '../../../data/work-categories.js';
+import '../../../styles/archive-b.css';
+
+const category = gameDirectories.find((item) => item.id === 'character-design')!;
+const works = (await getCollection('works')).filter((work) => work.data.categories.includes(category.contentCategory)).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Character Design — Aslan Li" page="works"><WorkCategoryGallery {category} {works} backHref="/works/games/" backLabel="GAMES" /></BaseLayout>

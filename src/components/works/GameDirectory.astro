@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import SiteNav from '../layout/SiteNav.astro';
+import { gameDirectories } from '../../data/work-categories.js';
+
+interface Props {
+  works: CollectionEntry<'works'>[];
+}
+
+const { works } = Astro.props;
+const directories = gameDirectories.map((directory) => ({
+  ...directory,
+  count: works.filter((work) => work.data.categories.includes(directory.contentCategory)).length,
+}));
+---
+
+<main id="main-content" class="works-page game-directory-page">
+  <header class="works-header">
+    <a class="archive-home-link" href="/">LI YETONG / ASLAN</a>
+    <SiteNav current="works" worksHref="/works/" />
+    <a class="category-gallery__back" href="/works/">← WORKS</a>
+  </header>
+
+  <section class="category-gallery__intro" aria-labelledby="game-directory-title">
+    <p class="archive-kicker"><span>GAME ARCHIVE</span> / 03 DIRECTORIES</p>
+    <h1 id="game-directory-title">GAMES</h1>
+    <p>Select a field, then enter its gallery.</p>
+  </section>
+
+  <nav class="game-directory-index" aria-label="Game directories">
+    {directories.map((directory, index) => (
+      <a class="game-directory-entry" href={`/works/games/${directory.id}/`}>
+        <span class="game-directory-entry__number">{String(index + 1).padStart(2, '0')}</span>
+        <span class="game-directory-entry__title">{directory.label}</span>
+        <span class="game-directory-entry__count">{String(directory.count).padStart(2, '0')} {directory.count === 1 ? 'FILE' : 'FILES'}</span>
+        <span class="game-directory-entry__arrow" aria-hidden="true">↗</span>
+        <span class="game-directory-entry__intro">{directory.intro}</span>
+      </a>
+    ))}
+  </nav>
+
+  <footer class="project-footer"><a href="/works/">← RETURN TO WORKS</a></footer>
+</main>

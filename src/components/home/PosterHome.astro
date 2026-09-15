@@ -1,131 +1,152 @@
 ---
-const selectedWorks = [
-  {
-    index: '01',
-    title: 'Photography Portfolio',
-    type: 'PHOTOGRAPHY / PERSONAL ARCHIVE',
-    href: '/works/photography-notes/',
-    src: '/images/works/photography-notes/book/spread-03.jpg',
-    alt: 'Photography Portfolio spread with water reflections and architecture',
-    className: 'selected-work--photography',
-  },
-  {
-    index: '02',
-    title: 'Eye Study',
-    type: 'SKETCHBOOK / PAINTING',
-    href: '/sketchbook/',
-    src: '/images/works/sketchbook/FREE_saywhateverI_7.jpg',
-    alt: 'Sketchbook painting spread with a large blue eye and handwritten text',
-    className: 'selected-work--eye',
-  },
-  {
-    index: '03',
-    title: 'Turn, Return',
-    type: 'SKETCHBOOK / PAINTING',
-    href: '/sketchbook/',
-    src: '/images/works/sketchbook/FREE_saywhateverI_5.jpg',
-    alt: 'Sketchbook painting spread with two painted figures on black',
-    className: 'selected-work--turn',
-  },
-];
+import SiteNav from '../layout/SiteNav.astro';
 ---
 
-<main class="poster-page">
-  <header class="poster-nav" aria-label="Primary navigation">
-    <a class="poster-nav__name" href="/" aria-label="Home">LI YETONG / ASLAN</a>
-    <nav class="poster-nav__links" aria-label="Primary navigation">
-      <a href="#selected">SELECTED</a>
-      <a href="/works/">WORKS</a>
-      <a href="/about/">ABOUT</a>
-    </nav>
-    <p class="poster-nav__edition">ARCHIVE / 01</p>
+<main id="main-content" class="poster-page">
+  <header class="poster-nav">
+    <a class="poster-nav__name" href="/" aria-label="Li Yetong, home">LI YETONG / ASLAN</a>
+    <SiteNav current="index" showIndex={false} />
   </header>
 
-  <section class="poster-hero" aria-labelledby="poster-title">
-    <p class="poster-hero__catalog">A PERSONAL ARCHIVE OF<br />SYSTEMS, IMAGES, STORIES.</p>
-    <p class="poster-hero__note">SINGAPORE<br />2026</p>
+  <section class="poster-cover" aria-labelledby="poster-title">
+    <div class="poster-cover__planes" aria-hidden="true">
+      <span class="poster-cover__red"></span>
+      <span class="poster-cover__yellow"></span>
+      <svg class="poster-cover__liquid" data-liquid-fields viewBox="0 0 1000 700" preserveAspectRatio="none" focusable="false">
+        <path data-liquid-red fill="#E5483B" d="M 0 0 L 680 0 L 680 588 L 0 588 Z"></path>
+        <path data-liquid-yellow fill="#DDF000" stroke="#FDF9F2" stroke-width="8" vector-effect="non-scaling-stroke" d="M 620 168 L 1000 168 L 1000 700 L 620 700 Z"></path>
+      </svg>
+    </div>
 
-    <div class="poster-hero__type" aria-hidden="true">
+    <p class="poster-cover__eyebrow">CREATIVE TECHNOLOGIST<br />SINGAPORE / 2026</p>
+
+    <h1 id="poster-title" class="poster-cover__name" aria-label="Li Yetong">
       <span>LI</span>
       <span>YETONG</span>
-    </div>
+    </h1>
 
-    <figure class="poster-fragment poster-fragment--eye">
-      <button type="button" class="poster-eye-trigger" data-eye-trigger aria-label="Animate the eye study">
-        <img src="/images/works/sketchbook/FREE_saywhateverI_7.jpg" alt="" />
-      </button>
-      <figcaption>SKETCHBOOK / EYE STUDY</figcaption>
-    </figure>
-
-    <figure class="poster-fragment poster-fragment--photo">
-      <img src="/images/works/photography-notes/book/spread-03.jpg" alt="" />
-      <figcaption>PHOTOGRAPHY / PRIVATE LIGHT</figcaption>
-    </figure>
-
-    <p id="poster-title" class="poster-hero__statement">
-      CREATIVE TECHNOLOGIST<br />WORKING BETWEEN AI,<br />INTERACTION &amp; VISUAL NARRATIVE.
+    <p class="poster-cover__statement">
+      Working between AI, interaction,<br />visual systems and narrative.
     </p>
 
-    <a class="poster-hero__enter" href="#selected">ENTER SELECTED WORKS <span aria-hidden="true">↓</span></a>
-  </section>
-
-  <section id="selected" class="selected-works" aria-labelledby="selected-title">
-    <header class="selected-works__header">
-      <p>01 / SELECTED MATERIAL</p>
-      <h1 id="selected-title">THREE<br /><em>WAYS IN</em></h1>
-      <p class="selected-works__intro">Photography and painted notes: traces of looking, remembered places, and imagined figures.</p>
-    </header>
-
-    <div class="selected-works__grid">
-      {selectedWorks.map((work) => (
-        <article class:list={['selected-work', work.className]}>
-          <a href={work.href} class="selected-work__image">
-            <img src={work.src} alt={work.alt} loading="lazy" />
-            <span aria-hidden="true">OPEN ↗</span>
-          </a>
-          <div class="selected-work__meta">
-            <p>{work.index}</p>
-            <div>
-              <h2>{work.title}</h2>
-              <p>{work.type}</p>
-            </div>
-          </div>
-        </article>
-      ))}
-    </div>
-    <a class="selected-works__all" href="/works/">VIEW THE COMPLETE WORKS INDEX ↗</a>
-  </section>
-
-  <section class="poster-afterword" aria-label="Practice statement">
-    <p class="poster-afterword__mark">02 / WORKING NOTE</p>
-    <p>I use technical systems to make concepts, experiences, and images legible. The work moves between research, visual observation, interface, and fiction.</p>
-    <a href="/about/">MORE ABOUT THE PRACTICE ↗</a>
+    <a class="poster-cover__action" href="/works/">
+      <span>VIEW WORKS</span><span aria-hidden="true">↗</span>
+    </a>
   </section>
 
   <footer class="poster-footer">
     <a href="mailto:YETONG001@e.ntu.edu.sg">YETONG001@e.ntu.edu.sg ↗</a>
     <a href="https://github.com/aassllaann" target="_blank" rel="noreferrer">GITHUB / AASSLLAANN ↗</a>
   </footer>
-  <p class="poster-motion-status" data-eye-status aria-live="polite"></p>
 </main>
 
 <script>
-  const eyeTrigger = document.querySelector<HTMLButtonElement>('[data-eye-trigger]');
-  const eyeStatus = document.querySelector<HTMLElement>('[data-eye-status]');
-  let eyeTimer: ReturnType<typeof setTimeout> | undefined;
+  import { liquidRectPath, staticRectPath } from '../../scripts/liquid-fields.js';
 
-  function wakeEye() {
-    if (!eyeTrigger) return;
-    eyeTrigger.classList.remove('is-awake');
-    void eyeTrigger.offsetWidth;
-    eyeTrigger.classList.add('is-awake');
-    if (eyeStatus) eyeStatus.textContent = 'Eye study animated.';
-    if (eyeTimer) clearTimeout(eyeTimer);
-    eyeTimer = setTimeout(() => {
-      eyeTrigger.classList.remove('is-awake');
-      if (eyeStatus) eyeStatus.textContent = '';
-    }, 520);
+  const cover = document.querySelector<HTMLElement>('.poster-cover');
+  const svg = document.querySelector<SVGSVGElement>('[data-liquid-fields]');
+  const redPath = document.querySelector<SVGPathElement>('[data-liquid-red]');
+  const yellowPath = document.querySelector<SVGPathElement>('[data-liquid-yellow]');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (cover && svg && redPath && yellowPath && !reduceMotion) {
+    const liquidCover = cover;
+    const liquidSvg = svg;
+    const liquidRed = redPath;
+    const liquidYellow = yellowPath;
+    const current = { x: 500, y: 350 };
+    const target = { x: 500, y: 350 };
+    let strength = 0;
+    let hovering = false;
+    let pulseUntil = 0;
+    let frame = 0;
+    let visible = true;
+    let touchStart: { x: number; y: number; time: number } | undefined;
+    let redRect = { x: 0, y: 0, width: 680, height: 588 };
+    let yellowRect = { x: 620, y: 168, width: 380, height: 532 };
+
+    function setResponsiveGeometry() {
+      if (window.matchMedia('(max-width: 700px)').matches) {
+        redRect = { x: 0, y: 0, width: 1000, height: 406 };
+        yellowRect = { x: 280, y: 371, width: 720, height: 329 };
+      } else {
+        redRect = { x: 0, y: 0, width: 680, height: 588 };
+        yellowRect = { x: 620, y: 168, width: 380, height: 532 };
+      }
+      liquidRed.setAttribute('d', staticRectPath(redRect));
+      liquidYellow.setAttribute('d', staticRectPath(yellowRect));
+    }
+
+    function pointerPosition(event: PointerEvent) {
+      const bounds = liquidSvg.getBoundingClientRect();
+      if (!bounds.width || !bounds.height) return;
+      target.x = (event.clientX - bounds.left) / bounds.width * 1000;
+      target.y = (event.clientY - bounds.top) / bounds.height * 700;
+    }
+
+    function render() {
+      liquidRed.setAttribute('d', liquidRectPath(redRect, current, strength));
+      liquidYellow.setAttribute('d', liquidRectPath(yellowRect, current, strength));
+    }
+
+    function wake() {
+      if (visible && !frame) frame = requestAnimationFrame(tick);
+    }
+
+    function tick(time: number) {
+      const desiredStrength = hovering || time < pulseUntil ? 1 : 0;
+      current.x += (target.x - current.x) * .16;
+      current.y += (target.y - current.y) * .16;
+      strength += (desiredStrength - strength) * (desiredStrength ? .13 : .08);
+      render();
+      const moving = Math.abs(target.x - current.x) + Math.abs(target.y - current.y) > .2 || Math.abs(desiredStrength - strength) > .003 || time < pulseUntil;
+      frame = moving && visible ? requestAnimationFrame(tick) : 0;
+      if (!frame && strength < .004) {
+        strength = 0;
+        render();
+      }
+    }
+
+    function pulse(x = 650, y = 350) {
+      target.x = x;
+      target.y = y;
+      pulseUntil = performance.now() + 360;
+      wake();
+    }
+
+    liquidCover.addEventListener('pointermove', (event) => {
+      if (event.pointerType === 'touch') return;
+      pointerPosition(event);
+      hovering = true;
+      wake();
+    });
+    liquidCover.addEventListener('pointerleave', () => { hovering = false; wake(); });
+    liquidCover.addEventListener('pointerdown', (event) => {
+      if (event.pointerType !== 'touch' || (event.target as Element).closest('a, button')) return;
+      touchStart = { x: event.clientX, y: event.clientY, time: performance.now() };
+    });
+    liquidCover.addEventListener('pointerup', (event) => {
+      if (!touchStart || event.pointerType !== 'touch') return;
+      const distance = Math.hypot(event.clientX - touchStart.x, event.clientY - touchStart.y);
+      const duration = performance.now() - touchStart.time;
+      touchStart = undefined;
+      if (distance > 12 || duration > 500) return;
+      pointerPosition(event);
+      pulse(target.x, target.y);
+    });
+    window.addEventListener('resize', () => { setResponsiveGeometry(); render(); });
+    document.addEventListener('visibilitychange', () => {
+      visible = !document.hidden;
+      if (!visible && frame) { cancelAnimationFrame(frame); frame = 0; }
+      else wake();
+    });
+    new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting && !document.hidden;
+      if (!visible && frame) { cancelAnimationFrame(frame); frame = 0; }
+      else wake();
+    }).observe(liquidCover);
+
+    setResponsiveGeometry();
+    liquidCover.classList.add('is-liquid-ready');
   }
-
-  eyeTrigger?.addEventListener('click', wakeEye);
 </script>
