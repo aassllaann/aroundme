@@ -2,17 +2,17 @@
 import SiteNav from '../layout/SiteNav.astro';
 
 const practices = [
-  'AI / visual systems',
-  'archive narratives',
-  'interaction & web',
-  'image studies',
-  'moving image',
+  'AI systems & recommendation tools',
+  'interfaces & web prototypes',
+  'interactive archives',
+  'visual research & image studies',
+  'games & moving image',
 ];
 
 const skills = [
-  ['TECHNICAL', 'Python · JavaScript · React · Astro · Streamlit · SQL · LLM · RAG · Data Visualization'],
-  ['CREATIVE', 'Photography · Video Editing · Illustration · Painting · Pixel Art · Visual Research'],
-  ['IN PROGRESS', 'TouchDesigner · p5.js · Three.js · Blender'],
+  ['TOOLS USED', 'Python · JavaScript · React · Astro · Streamlit · SQL · LLM · RAG · Data Visualization'],
+  ['CREATIVE PRACTICE', 'Photography · Video Editing · Illustration · Painting · Pixel Art · Visual Research'],
+  ['CURRENTLY LEARNING', 'TouchDesigner · p5.js · Three.js · Blender'],
 ];
 ---
 
@@ -26,8 +26,8 @@ const skills = [
     <p class="archive-kicker"><span>ABOUT</span> PRACTICE / BACKGROUND</p>
     <h1 id="about-title">ABOUT</h1>
     <p class="about-lede">
-      Li Yetong (Aslan) is a creative technologist working across AI, visual systems,
-      archive narratives, interaction, and experimental storytelling.
+      Li Yetong (Aslan) is an MSc Artificial Intelligence student at NTU. This site collects
+      projects and studies across AI, interaction design, visual systems, and narrative.
     </p>
   </section>
 
@@ -35,9 +35,9 @@ const skills = [
     <div class="record-label">01 / POSITION</div>
     <div class="record-content record-content--statement">
       <p class="position-statement">
-        I use technical systems to make concepts, experiences, and images legible —
-        not simply to demonstrate technical skill. The work sits between research,
-        interface, visual observation, and fiction.
+        I build and study small systems that combine AI, interfaces, data visualisation,
+        and visual research. Current work includes recommendation tools, interactive
+        archives, game prototypes, and creative-technology experiments.
       </p>
       <ul class="practice-list" aria-label="Creative practice">
         {practices.map((practice) => <li>{practice}</li>)}
@@ -62,7 +62,7 @@ const skills = [
   </section>
 
   <section class="about-record">
-    <div class="record-label">03 / WORKING SET</div>
+    <div class="record-label">03 / TOOLS & PRACTICE</div>
     <div class="record-content skill-list">
       {skills.map(([label, content]) => (
         <article>
@@ -74,7 +74,7 @@ const skills = [
   </section>
 
   <footer class="about-contact">
-    <p class="archive-kicker"><span>04</span> CONTACT / COLLABORATION</p>
+    <p class="archive-kicker"><span>04</span> CONTACT</p>
     <div class="about-contact__links">
       <a href="mailto:YETONG001@e.ntu.edu.sg">YETONG001@e.ntu.edu.sg ↗</a>
       <a href="https://github.com/aassllaann" target="_blank" rel="noreferrer">GITHUB / AASSLLAANN ↗</a>

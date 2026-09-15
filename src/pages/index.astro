@@ -1,9 +1,17 @@
 ---
+import { getCollection } from 'astro:content';
 import PosterHome from '../components/home/PosterHome.astro';
+import WorksIndex from '../components/works/WorksIndex.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import '../styles/poster-home.css';
+import '../styles/archive-b.css';
+
+const works = (await getCollection('works')).sort((a, b) => a.data.order - b.data.order);
 ---
 
 <BaseLayout title="Aslan Li — Creative Technologist" page="index">
-  <PosterHome />
+  <main id="main-content">
+    <PosterHome />
+    <WorksIndex {works} embedded />
+  </main>
 </BaseLayout>

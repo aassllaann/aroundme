@@ -5,15 +5,17 @@ import { workCategories, worksInCategory } from '../../data/work-categories.js';
 
 interface Props {
   works: CollectionEntry<'works'>[];
+  embedded?: boolean;
 }
 
-const { works } = Astro.props;
+const { works, embedded = false } = Astro.props;
+const Root = embedded ? 'section' : 'main';
 ---
 
-<main id="main-content" class="works-page works-landing">
+<Root id={embedded ? 'works' : 'main-content'} class:list={['works-page', 'works-landing', { 'works-page--embedded': embedded }]} aria-labelledby={embedded ? 'works-title' : undefined}>
   <header class="works-header">
     <a class="archive-home-link" href="/">LI YETONG / ASLAN</a>
-    <SiteNav current="works" />
+    <SiteNav current="works" worksHref={embedded ? '#works' : '/works/'} />
     <p class="edition-mark edition-mark--right">{String(works.length).padStart(2, '0')} PROJECTS</p>
   </header>
 
@@ -37,4 +39,4 @@ const { works } = Astro.props;
   </nav>
 
   <footer class="works-landing__footer"><a href="/sketchbook/">OPEN SKETCHBOOK ↗</a></footer>
-</main>
+</Root>

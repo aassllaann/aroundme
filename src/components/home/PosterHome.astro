@@ -2,10 +2,10 @@
 import SiteNav from '../layout/SiteNav.astro';
 ---
 
-<main id="main-content" class="poster-page">
+<section id="index" class="poster-page" aria-labelledby="poster-title">
   <header class="poster-nav">
     <a class="poster-nav__name" href="/" aria-label="Li Yetong, home">LI YETONG / ASLAN</a>
-    <SiteNav current="index" showIndex={false} />
+    <SiteNav current="index" worksHref="#works" showIndex={false} />
   </header>
 
   <section class="poster-cover" aria-labelledby="poster-title">
@@ -29,8 +29,8 @@ import SiteNav from '../layout/SiteNav.astro';
       Working between AI, interaction,<br />visual systems and narrative.
     </p>
 
-    <a class="poster-cover__action" href="/works/">
-      <span>VIEW WORKS</span><span aria-hidden="true">↗</span>
+    <a class="poster-cover__action" href="#works">
+      <span>VIEW WORKS</span><span aria-hidden="true">↓</span>
     </a>
   </section>
 
@@ -38,7 +38,7 @@ import SiteNav from '../layout/SiteNav.astro';
     <a href="mailto:YETONG001@e.ntu.edu.sg">YETONG001@e.ntu.edu.sg ↗</a>
     <a href="https://github.com/aassllaann" target="_blank" rel="noreferrer">GITHUB / AASSLLAANN ↗</a>
   </footer>
-</main>
+</section>
 
 <script>
   import { liquidRectPath, staticRectPath } from '../../scripts/liquid-fields.js';

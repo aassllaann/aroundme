@@ -12,6 +12,7 @@ const { work, Content } = Astro.props;
 const { preview } = work.data;
 const assetUrl = (src: string) => `/${src}`;
 const isPhotographyPortfolio = work.id === 'photography-notes';
+const isInterfaceCaseStudy = work.id === 'ai-camera-advisor';
 const implementedPrototypeIds = new Set([
   'scentscape',
   'la-table-du-temps',
@@ -19,13 +20,18 @@ const implementedPrototypeIds = new Set([
   'agent-product-comparison',
 ]);
 const hasImplementedPrototype = implementedPrototypeIds.has(work.id);
+const projectIndex = isInterfaceCaseStudy ? 'UI/UX' : work.data.categories.join(' · ');
 const projectStatus = isPhotographyPortfolio
   ? 'PORTFOLIO EDITION / 91 PAGES'
+  : isInterfaceCaseStudy
+    ? 'UI/UX PROTOTYPE / 05 SCREENS'
   : hasImplementedPrototype
     ? 'WORKING PROTOTYPE / SCREEN CAPTURES PENDING'
     : 'MATERIALS BEING INDEXED';
 const previewCaption = isPhotographyPortfolio
   ? 'PORTFOLIO EDITION — OPENING PAGE'
+  : isInterfaceCaseStudy
+    ? 'UI/UX PROTOTYPE — COMPLETE SCREEN FLOW'
   : hasImplementedPrototype && preview.type === 'image' && !preview.src.endsWith('.svg')
     ? 'PROJECT ILLUSTRATION / INTERFACE CAPTURES PENDING'
     : hasImplementedPrototype
@@ -33,7 +39,7 @@ const previewCaption = isPhotographyPortfolio
     : 'PROJECT PREVIEW — MATERIALS BEING INDEXED';
 ---
 
-<main id="main-content" class="project-page">
+<main id="main-content" class:list={['project-page', { 'project-page--interface-case-study': isInterfaceCaseStudy }]}>
   <header class="project-header">
     <a class="archive-home-link" href="/">LI YETONG / ASLAN</a>
     <SiteNav current="works" />
@@ -68,7 +74,7 @@ const previewCaption = isPhotographyPortfolio
       <dl>
         <div><dt>TYPE</dt><dd>{work.data.type}</dd></div>
         <div><dt>YEAR</dt><dd>{work.data.year}</dd></div>
-        <div><dt>INDEX</dt><dd>{work.data.categories.join(' · ')}</dd></div>
+        <div><dt>INDEX</dt><dd>{projectIndex}</dd></div>
         <div><dt>STATUS</dt><dd>{projectStatus}</dd></div>
       </dl>
     </aside>
