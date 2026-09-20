@@ -12,24 +12,48 @@ preview:
   alt: Hand-drawn figure holding a camera with headphones, a handheld game device, and a speaker
 ---
 
-## From a vague request to a comparable choice
+## From a request to a comparison
 
-Agent Product Comparison explores how a recommendation system can translate natural-language needs into a transparent decision process. It began with camera data and developed into a broader electronics prototype with category detection, scenario-aware filtering, and comparison views.
+Agent Product Comparison is a graduation-design prototype for turning natural-language shopping requests into grounded, comparable choices. It pairs language-model intent parsing with a local SQLite fact layer, category-specific rules, and Plotly charts in a Streamlit interface, so a request such as “a Vlog camera under ¥5,000” can become a traceable comparison rather than an ungrounded answer.
 
-## Recommendation pipeline
+<div class="project-screen-gallery project-screen-gallery--single">
+  <figure>
+    <img src="/images/works/agent-product-comparison/camera-vlog-comparison.png" alt="Agent Product Comparison camera consultation showing three recommendations, analyst notes, and radar and bar-chart comparisons" loading="lazy" />
+    <figcaption>01 / CAMERA CONSULTATION — RECOMMENDATIONS AND ANALYST NOTES</figcaption>
+  </figure>
+</div>
 
-- Parses use case, budget, brand preference, product type, owned devices, and priority metrics from a user request.
-- Routes known product categories to specialized data and scoring logic.
-- Matches scenarios such as Vlog, street photography, travel, or gaming to curated candidate sets before applying hard constraints.
-- Falls back to a wider catalogue when a scenario set cannot provide enough suitable options.
-- Produces radar, bar, and scatter-chart comparisons alongside a natural-language explanation of the trade-offs.
+## My role
+
+- Defined the product concept and the four-layer architecture spanning presentation, intent routing, domain decisions, and fact data.
+- Built the Python and Streamlit prototype, including multi-agent routing, category-specific scoring and retrieval, explanatory recommendation cards, and Plotly comparison views.
+- Structured a three-level taxonomy across 10 digital-product categories and designed scenario-based rules for product comparison and cross-category suggestions.
+- Evaluated the prototype with automated functional checks and a small user-experience study; the local test environment recorded 100% preset-category recognition and 3–5 second end-to-end responses.
+
+## Recommendation flow
+
+<ol class="recommendation-flow" aria-label="Recommendation flow">
+  <li>
+    <span>01 / INTERPRET</span>
+    <h3>Understand the request</h3>
+    <p>Category routing and domain agents extract product type, budget, use scenario, brand preference, and ranking priorities from everyday language.</p>
+  </li>
+  <li>
+    <span>02 / RETRIEVE</span>
+    <h3>Ground the comparison</h3>
+    <p>Scenario presets retrieve candidates first; a constrained local-database search provides a fallback when strict requirements leave too few results.</p>
+  </li>
+  <li>
+    <span>03 / EXPLAIN</span>
+    <h3>Make trade-offs legible</h3>
+    <p>Cards, a decision trace, and comparison charts surface the constraints, sorting basis, and multidimensional differences behind each result.</p>
+  </li>
+</ol>
+
+The prototype covers 10 digital-product categories. Its evaluation combines automated logic checks with a small local user-experience study; feedback suggested that conversational input paired with visual comparison made results easier to understand and assess.
 
 ## Scope and limits
 
-The current local database supports electronics recommendation data. Other detected categories intentionally return an informed buying-guide mode rather than pretending that equivalent product data exists.
-
-## Status
-
-The prototype includes the unified agent flow, product data handling, scenario rules, category-specific specifications, and explanatory comparison views. Broader data coverage and interface refinement remain open work.
+Recommendations are grounded in the project's local product database rather than live price or inventory feeds. The interface is an academic and portfolio prototype, not a current shopping service.
 
 [VIEW SOURCE ON GITHUB ↗](https://github.com/aassllaann/agent-product-comparison-viz)

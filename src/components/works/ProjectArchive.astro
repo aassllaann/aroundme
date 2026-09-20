@@ -9,37 +9,15 @@ interface Props {
 }
 
 const { work, Content } = Astro.props;
-const { preview } = work.data;
-const assetUrl = (src: string) => `/${src}`;
 const isPhotographyPortfolio = work.id === 'photography-notes';
 const isInterfaceCaseStudy = work.id === 'ai-camera-advisor';
-const implementedPrototypeIds = new Set([
-  'scentscape',
-  'la-table-du-temps',
-  'i-ching-grand-strategy',
-  'agent-product-comparison',
-]);
-const hasImplementedPrototype = implementedPrototypeIds.has(work.id);
+const isScentscape = work.id === 'scentscape';
+const isLaTableDuTemps = work.id === 'la-table-du-temps';
+const isAgentProductComparison = work.id === 'agent-product-comparison';
 const projectIndex = isInterfaceCaseStudy ? 'UI/UX' : work.data.categories.join(' · ');
-const projectStatus = isPhotographyPortfolio
-  ? 'PORTFOLIO EDITION / 91 PAGES'
-  : isInterfaceCaseStudy
-    ? 'UI/UX PROTOTYPE / 05 SCREENS'
-  : hasImplementedPrototype
-    ? 'WORKING PROTOTYPE / SCREEN CAPTURES PENDING'
-    : 'MATERIALS BEING INDEXED';
-const previewCaption = isPhotographyPortfolio
-  ? 'PORTFOLIO EDITION — OPENING PAGE'
-  : isInterfaceCaseStudy
-    ? 'UI/UX PROTOTYPE — COMPLETE SCREEN FLOW'
-  : hasImplementedPrototype && preview.type === 'image' && !preview.src.endsWith('.svg')
-    ? 'PROJECT ILLUSTRATION / INTERFACE CAPTURES PENDING'
-    : hasImplementedPrototype
-      ? 'PROJECT PREVIEW / INTERFACE CAPTURES PENDING'
-    : 'PROJECT PREVIEW — MATERIALS BEING INDEXED';
 ---
 
-<main id="main-content" class:list={['project-page', { 'project-page--interface-case-study': isInterfaceCaseStudy }]}>
+<main id="main-content" class:list={['project-page', { 'project-page--interface-case-study': isInterfaceCaseStudy, 'project-page--scentscape': isScentscape, 'project-page--la-table-du-temps': isLaTableDuTemps, 'project-page--agent-product-comparison': isAgentProductComparison }]}>
   <header class="project-header">
     <a class="archive-home-link" href="/">LI YETONG / ASLAN</a>
     <SiteNav current="works" />
@@ -52,34 +30,20 @@ const previewCaption = isPhotographyPortfolio
     <p class="project-hero__summary">{work.data.summary}</p>
   </section>
 
-  {!isPhotographyPortfolio && (
-    <section class="project-media" aria-label={`${work.data.title} preview`}>
-      <figure class="project-media__figure">
-        {preview.type === 'image' ? (
-          <img src={assetUrl(preview.src)} alt={preview.alt} />
-        ) : (
-          <video src={assetUrl(preview.src)} poster={assetUrl(preview.poster)} controls playsinline>
-            Your browser does not support embedded video.
-          </video>
-        )}
-        <figcaption>{previewCaption}</figcaption>
-      </figure>
-    </section>
-  )}
-
   {isPhotographyPortfolio && <PhotographyFlipbook />}
 
-  <section class="project-record">
-    <aside class="project-meta" aria-label="Project metadata">
-      <dl>
-        <div><dt>TYPE</dt><dd>{work.data.type}</dd></div>
-        <div><dt>YEAR</dt><dd>{work.data.year}</dd></div>
-        <div><dt>INDEX</dt><dd>{projectIndex}</dd></div>
-        <div><dt>STATUS</dt><dd>{projectStatus}</dd></div>
-      </dl>
-    </aside>
-    <article class="project-body"><Content /></article>
-  </section>
+  {!isPhotographyPortfolio && (
+    <section class="project-record">
+      <aside class="project-meta" aria-label="Project metadata">
+        <dl>
+          <div><dt>TYPE</dt><dd>{work.data.type}</dd></div>
+          <div><dt>YEAR</dt><dd>{work.data.year}</dd></div>
+          <div><dt>INDEX</dt><dd>{projectIndex}</dd></div>
+        </dl>
+      </aside>
+      <article class="project-body"><Content /></article>
+    </section>
+  )}
 
   <footer class="project-footer"><a href="/works/">← RETURN TO WORKS INDEX</a></footer>
 </main>

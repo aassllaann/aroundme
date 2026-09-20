@@ -11,7 +11,7 @@ export const previewDimensions = {
   'images/works/ai-camera-advisor/preview.png': [2170, 874],
   'images/works/i-ching-grand-strategy/thumbnail-illustration.png': [1672, 941],
   'images/works/la-table-du-temps/thumbnail-illustration.png': [1672, 941],
-  'images/works/photography-notes/book/spread-03.jpg': [1551, 1106],
+  'images/works/photography-notes/book/cover-spread.png': [1551, 1106],
   'images/works/pixel-monster-studies/preview.svg': [1200, 900],
 };
 

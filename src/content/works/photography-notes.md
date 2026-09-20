@@ -8,8 +8,8 @@ featured: false
 summary: A first-person photography archive moving between private attention, places passed through, animals, light, and the unstable memory held by an image.
 preview:
   type: image
-  src: images/works/photography-notes/book/spread-03.jpg
-  alt: Opening photograph from Photography Portfolio 2023—2026
+  src: images/works/photography-notes/book/cover-spread.png
+  alt: Cover of Photography Portfolio 2023—2026
 ---
 
 ## A first-person record
