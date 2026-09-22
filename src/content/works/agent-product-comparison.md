@@ -1,5 +1,5 @@
 ---
-title: Agent Product Comparison
+title: Agent-Powered Product Comparison
 order: 4
 year: '2025–2026'
 type: AGENT SYSTEM / EXPLAINABLE RECOMMENDATION
@@ -9,16 +9,16 @@ summary: A conversational recommendation prototype that combines structured inte
 preview:
   type: image
   src: images/works/agent-product-comparison/thumbnail-illustration.png
-  alt: Hand-drawn figure holding a camera with headphones, a handheld game device, and a speaker
+  alt: Paper-cut agents routing one shopping request toward balanced product choices
 ---
 
 ## From a request to a comparison
 
-Agent Product Comparison is a graduation-design prototype for turning natural-language shopping requests into grounded, comparable choices. It pairs language-model intent parsing with a local SQLite fact layer, category-specific rules, and Plotly charts in a Streamlit interface, so a request such as “a Vlog camera under ¥5,000” can become a traceable comparison rather than an ungrounded answer.
+Agent-Powered Product Comparison is a graduation-design prototype for turning natural-language shopping requests into grounded, comparable choices. It pairs language-model intent parsing with a local SQLite fact layer, category-specific rules, and Plotly charts in a Streamlit interface, so a request such as “a Vlog camera under ¥5,000” can become a traceable comparison rather than an ungrounded answer.
 
 <div class="project-screen-gallery project-screen-gallery--single">
   <figure>
-    <img src="/images/works/agent-product-comparison/camera-vlog-comparison.png" alt="Agent Product Comparison camera consultation showing three recommendations, analyst notes, and radar and bar-chart comparisons" loading="lazy" />
+    <img src="/images/works/agent-product-comparison/camera-vlog-comparison.png" alt="Agent-powered product comparison camera consultation showing three recommendations, analyst notes, and radar and bar-chart comparisons" loading="lazy" />
     <figcaption>01 / CAMERA CONSULTATION — RECOMMENDATIONS AND ANALYST NOTES</figcaption>
   </figure>
 </div>

@@ -9,7 +9,7 @@ summary: An interactive olfactory atlas that translates perfume data into a visu
 preview:
   type: image
   src: images/works/scentscape/thumbnail-illustration-v2.png
-  alt: Hand-drawn illustration of a perfume bottle releasing scent ribbons, petals, and leaves
+  alt: Paper-cut perfume bottle releasing scent ribbons into a nine-segment fragrance wheel
 ---
 
 ## An olfactory atlas
@@ -38,7 +38,7 @@ Scentscape is an experimental creative-technology prototype that turns perfume d
     <h3>Explore the atlas</h3>
     <p>The D3 double-ring wheel maps 9 fragrance families and their subfamilies. Visitors can browse with pointer or keyboard controls, then search by perfume or brand; family and subfamily results remain paginated without losing the current query.</p>
   </div>
-  <div class="project-feature__images">
+  <div class="project-feature__images project-feature__images--atlas">
     <figure>
       <img src="/images/works/scentscape/atlas-main-clean.png" alt="Scentscape Atlas with an interactive double-ring fragrance wheel, search bar, and perfume list" loading="lazy" />
       <figcaption>02 / ATLAS — FAMILY BROWSING</figcaption>

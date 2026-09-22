@@ -9,7 +9,7 @@ summary: An in-development strategy and visual-novel game where I Ching hexagram
 preview:
   type: image
   src: images/works/i-ching-grand-strategy/thumbnail-illustration.png
-  alt: Hand-drawn strategist holding a calligraphy brush over a flowing path and three game tokens
+  alt: Paper-cut Earth over Heaven hexagram above a grain road with three strategy tokens
 ---
 
 ## A strategic reading of change
