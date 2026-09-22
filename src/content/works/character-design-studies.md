@@ -20,6 +20,13 @@ preview:
   <figure><img src="/images/works/character-design-studies/nepenthes-rafflesiana.png" alt="The Hungry Chef, a botanical character concept based on Nepenthes rafflesiana" loading="lazy" /><figcaption><strong>The Hungry Chef</strong><p>A monster that looks like a chef and cooks many tasty foods. If a player eats its food, its three tongues will come out and pull the player into its stomach.</p><em>Don’t be greedy.</em></figcaption></figure>
 </div>
 
+## Monster concept sketches
+
+<div class="character-design-gallery">
+  <figure><img src="/images/works/sketchbook/00-task1-1.jpg" alt="Black-ink monster concept sketches including an octopus, fishbone, wrench creature, manta, archer, chain creature, and headless figure" loading="lazy" /><figcaption>Monster concept sheet / 01</figcaption></figure>
+  <figure><img src="/images/works/sketchbook/01-task1-2.jpg" alt="Black-ink monster concept sketches including an eyeball juggler, rat boss, cat soldier, fractured fingers, horse, and three swords" loading="lazy" /><figcaption>Monster concept sheet / 02</figcaption></figure>
+</div>
+
 ## Pixel character studies
 
 <div class="character-design-gallery character-design-gallery--compact">

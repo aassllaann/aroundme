@@ -8,6 +8,8 @@ import '../styles/sketchbook-browser.css';
 const imageExtension = /\.(avif|gif|jpe?g|png|svg|webp)$/i;
 const sketchbookDirectory = `${process.cwd()}/public/images/works/sketchbook`;
 const imageDescriptions: Record<string, string> = {
+  '00-task1-1.jpg': 'Black-ink character sketches with handwritten notes: an octopus, fishbone, wrench creature, manta, archer, chain creature, and headless figure.',
+  '01-task1-2.jpg': 'Black-ink character sketches with handwritten notes: an eyeball juggler, rat boss, cat soldier, fractured fingers, horse, and three swords.',
   'FREE_saywhateverI_2.jpg': 'Watercolor sketchbook spread with a horse-like figure, a grey figure with large eyes, and handwritten text.',
   'FREE_saywhateverI_4.jpg': 'Sketchbook spread with orange Choose Life lettering, a blue pool-like shape, and handwritten notes.',
   'FREE_saywhateverI_5.jpg': 'Black sketchbook spread with green and red figures kissing and orange handwritten text.',
@@ -24,7 +26,7 @@ const imageDescriptions: Record<string, string> = {
 const images = existsSync(sketchbookDirectory)
   ? readdirSync(sketchbookDirectory)
       .filter((filename: string) => imageExtension.test(filename))
-      .sort((a: string, b: string) => a.localeCompare(b, undefined, { numeric: true }))
+      .sort((a: string, b: string) => (a < b ? -1 : a > b ? 1 : 0))
       .map((filename: string) => ({
         src: `/images/works/sketchbook/${encodeURIComponent(filename)}`,
         alt: imageDescriptions[filename] ?? filename.replace(imageExtension, '').replaceAll(/[-_]/g, ' '),

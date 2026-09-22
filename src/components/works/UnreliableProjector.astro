@@ -10,7 +10,7 @@ const { works } = Astro.props;
 const modes = [
   { id: 'systems', label: 'SYSTEMS', workIds: ['scentscape', 'agent-product-comparison', 'i-ching-grand-strategy'] },
   { id: 'images', label: 'IMAGES', workIds: ['photography-notes', 'sacrificial-lamb-instruction-manual', 'pixel-monster-studies'] },
-  { id: 'stories', label: 'STORIES', workIds: ['la-table-du-temps', 'detective-archive-prototype', 'video-editing-archive'] },
+  { id: 'stories', label: 'STORIES', workIds: ['la-table-du-temps', 'video-editing-archive'] },
 ] as const;
 const workById = new Map(works.map((work) => [work.id, work]));
 const projectorWorks = modes.flatMap((mode) => mode.workIds
